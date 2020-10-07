@@ -1,6 +1,7 @@
 import Req from './request';
 
 import users from 'stubs/users';
+import Prismic from 'prismic-javascript';
 
 export const fetchUsers = () =>
   Req.GET({
@@ -20,3 +21,8 @@ export const fetchUser = id => {
 
   return Promise.reject(new Error('Not found'));
 };
+
+export const fetchData = () =>
+  Prismic.getApi('https://afinity.cdn.prismic.io/api/v2').then(api => {
+    return api.query(Prismic.Predicates.at('document.type', 'home'));
+  });

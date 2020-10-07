@@ -1,0 +1,61 @@
+@import '~styles/variables';
+@import '~styles/media';
+
+.postsWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.wrapBtn {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  position: fixed;
+  top: 40vh;
+  left: 95vw;
+  transition: opacity 0.4s;
+  z-index: 14;
+
+  @include _1024 {
+    display: none;
+  }
+}
+
+.anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid $color-horizon;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0);
+  transition: 1s;
+  margin: 10px 5px;
+
+  &:hover {
+    border: 1px solid rgb(90, 175, 104);
+  }
+}
+
+.anchorCurrent {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0);
+  transition: 1s;
+}
+
+.isCurrent {
+  background-color: $color-horizon;
+}
+
+.isDisable {
+  pointer-events: none;
+}
+
+.isOpacity {
+  opacity: 0;
+}

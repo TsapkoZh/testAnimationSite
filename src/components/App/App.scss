@@ -1,8 +1,14 @@
 @use '~styles/variables' as *;
 
+html::-webkit-scrollbar {
+  width: 0;
+}
+
 body {
-  background-color: $color-dark-gray;
+  // background-color: $color-dark-gray;
+  // background-color: $color-dark-gray;
   font-family: 'Helvetica-Light', Helvetica, Arial, sans-serif;
+  // font-family: 'Myriad Pro Regular';
 }
 
 .app {

@@ -1,0 +1,63 @@
+@import '~styles/variables';
+
+.postWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  color: $color-black;
+}
+
+.hlp {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  height: 140vh;
+  width: 100%;
+}
+
+.headerImgWrapper {
+  position: sticky;
+  overflow: hidden;
+  top: 0;
+  width: 100%;
+  height: 150vh;
+}
+
+.headerImg {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.headerPost {
+  position: sticky;
+  top: 0;
+  height: 18vh;
+  padding: 0.5vh;
+  z-index: 10;
+  background-color: $color-white;
+}
+
+.headerPostTitle {
+  width: 35vw;
+  position: sticky;
+  font-size: 3vw;
+  text-align: center;
+  font-weight: 800;
+  margin: 2vh auto 0;
+  text-transform: uppercase;
+  color: $color-dark-gray;
+}
+
+.headerPostText {
+  width: 30vw;
+  text-align: center;
+  margin: 1vw auto 0;
+}
+
+.postContentWrap {
+  position: relative;
+  padding: 1px 0;
+  background-color: $color-white;
+}

@@ -9,6 +9,8 @@ import routes from './routes';
 import { rootSaga } from 'models';
 import configureStore from './store';
 
+import { gsap, ScrollToPlugin } from 'gsap/all';
+
 import './components/App';
 
 /* Get initial state from server side rendering */
@@ -19,6 +21,9 @@ const store = configureStore(history, initialState);
 
 /* Start saga middleware */
 store.runSaga(rootSaga);
+
+/* GSAP register */
+gsap.registerPlugin(ScrollToPlugin);
 
 const renderDom = process.env.APP_ENV === 'development' ? render : hydrate;
 const mountNode = document.getElementById('react-view');

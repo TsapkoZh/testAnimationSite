@@ -1,0 +1,69 @@
+@import '~styles/media';
+@import '~styles/variables';
+
+.postContent {
+  // position: sticky;
+  display: flex;
+  justify-content: space-evenly;
+  height: 25vw;
+  width: 80%;
+  color: black;
+  margin: 40vh auto 80vh;
+  background-color: $color-white;
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.315);
+
+  @include _1024 {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 10vh auto 20vh;
+    box-shadow: none;
+  }
+}
+
+.imgWrapper {
+  position: relative;
+  height: 100%;
+  width: 20vw;
+
+  .contentImg {
+    position: absolute;
+    width: 100%;
+    height: 35vw;
+    object-fit: cover;
+    box-shadow: 0 0 25px 15px rgba(0, 0, 0, 0.315);
+
+    @include _1360 {
+      height: 38vw;
+    }
+
+    @include _1024 {
+      position: unset;
+      box-shadow: none;
+    }
+  }
+}
+
+.contentTextWrapper {
+  margin: auto 0;
+}
+
+.contentPostTitle {
+  width: 30vw;
+  font-size: 1.5vw;
+  font-weight: bold;
+  margin-bottom: 1vw;
+
+  @include _1024 {
+    text-align: center;
+  }
+}
+
+.contentPostText {
+  width: 30vw;
+  font-size: 1vw;
+
+  @include _1024 {
+    text-align: center;
+  }
+}

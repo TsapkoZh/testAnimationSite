@@ -1,0 +1,32 @@
+@import '~styles/media';
+
+html,
+body {
+  // cursor: none;
+}
+
+a {
+  cursor: none;
+}
+
+.cursor {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #227494;
+  border-radius: 100%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: all 150ms ease;
+  transition-property: opacity, background-color, transform, mix-blend-mode;
+
+  @include _1024 {
+    display: none;
+  }
+}
+
+.cursorHidden {
+  opacity: 0;
+}

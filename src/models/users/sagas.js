@@ -7,6 +7,7 @@ import { actions } from './slice';
 export function* fetchUsers() {
   try {
     const response = yield call(api.fetchUsers);
+
     yield put({
       type: actions.fetchUsersSuccess,
       payload: { users: response.data },
