@@ -1,8 +1,9 @@
 @import '~styles/media';
+@import '~styles/variables';
 
 html,
 body {
-  // cursor: none;
+  cursor: none;
 }
 
 a {
@@ -10,9 +11,9 @@ a {
 }
 
 .cursor {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #227494;
+  width: 25px;
+  height: 25px;
+  border: 1px solid $color-horizon;
   border-radius: 100%;
   position: fixed;
   transform: translate(-50%, -50%);

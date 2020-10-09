@@ -1,4 +1,5 @@
 @import '~styles/variables';
+@import '~styles/media';
 
 .postWrapper {
   display: flex;
@@ -33,27 +34,34 @@
 .headerPost {
   position: sticky;
   top: 0;
-  height: 18vh;
-  padding: 0.5vh;
+  padding: 3vh 0;
   z-index: 10;
   background-color: $color-white;
+  background-color: rgb(231, 231, 231);
+  box-shadow: 0 0 12px 5px rgba(121, 121, 121, 0.315);
 }
 
 .headerPostTitle {
-  width: 35vw;
+  width: 55vw;
   position: sticky;
   font-size: 3vw;
   text-align: center;
-  font-weight: 800;
-  margin: 2vh auto 0;
+  line-height: normal;
+  margin: 0 auto;
   text-transform: uppercase;
-  color: $color-dark-gray;
+  color: rgb(73, 73, 73);
 }
 
 .headerPostText {
   width: 30vw;
   text-align: center;
-  margin: 1vw auto 0;
+  margin: 0.5vw auto 0;
+  font-weight: 100;
+  color: rgb(0, 0, 0);
+
+  @include _1024 {
+    font-size: 2vw;
+  }
 }
 
 .postContentWrap {

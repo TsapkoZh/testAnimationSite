@@ -9,7 +9,8 @@
   z-index: 50;
 
   @include _1024 {
-    display: none;
+    flex-direction: column;
+    height: 100vh;
   }
 }
 
@@ -42,6 +43,11 @@
 
 .isHiden {
   width: 0;
+
+  @include _1024 {
+    height: 0;
+    width: 100vw;
+  }
 }
 
 .isVisibility {

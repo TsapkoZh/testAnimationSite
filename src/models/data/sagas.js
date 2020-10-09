@@ -13,8 +13,6 @@ export function* fetchData() {
       type: actions.fetchDataSuccess,
       payload: { posts: serializer(response.results[0].data.body) },
     });
-
-    // console.log(response, 'response');
   } catch (err) {
     console.error(err);
   }

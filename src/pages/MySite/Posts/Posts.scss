@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  letter-spacing: 0.2vh;
+  line-height: 2.7vh;
 }
 
 .wrapBtn {
@@ -12,13 +14,15 @@
   justify-content: space-between;
   flex-direction: column;
   position: fixed;
+  border: 1px solid $color-horizon;
+  border-radius: 15px;
   top: 40vh;
   left: 95vw;
   transition: opacity 0.4s;
   z-index: 14;
 
   @include _1024 {
-    display: none;
+    left: 92vw;
   }
 }
 
@@ -26,26 +30,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border: 1px solid $color-horizon;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0);
   transition: 1s;
-  margin: 10px 5px;
+  margin: 20px 2px;
 
   &:hover {
-    border: 1px solid rgb(90, 175, 104);
+    background-color: rgb(90, 175, 104);
   }
-}
 
-.anchorCurrent {
-  width: 10px;
-  height: 10px;
-  border: 0;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0);
-  transition: 1s;
+  &.anchorCurrent {
+    background-color: $color-horizon;
+  }
+
+  @include _1024 {
+    width: 5px;
+    height: 5px;
+
+    &:hover {
+      border: 1px solid $color-horizon;
+    }
+  }
 }
 
 .isCurrent {

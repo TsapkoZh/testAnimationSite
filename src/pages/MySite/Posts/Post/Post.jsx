@@ -3,20 +3,24 @@ import { PropTypes } from 'prop-types';
 
 import PostContent from './PostContent';
 import InViewComp from 'components/InViewComp';
+import Picture from 'components/Picture';
 
 import styles from './Post.scss';
 
 const Post = ({ element, updateData }) => {
   const [viewAnchor, setViewAnchor] = useState(false);
 
-  const hiddenAnchor = useCallback((position, inView) => {
-    if (inView) {
-      setViewAnchor(true);
-    } else {
-      setViewAnchor(false);
-    }
-    updateData(viewAnchor);
-  });
+  const hiddenAnchor = useCallback(
+    (position, inView) => {
+      if (inView) {
+        setViewAnchor(true);
+      } else {
+        setViewAnchor(false);
+      }
+      updateData(viewAnchor);
+    },
+    [updateData, viewAnchor]
+  );
 
   return (
     <div className={styles.postWrapper}>
@@ -29,14 +33,11 @@ const Post = ({ element, updateData }) => {
         className={styles.hlp}
       />
       <div className={styles.headerImgWrapper}>
-        <picture>
-          <source srcSet={element.src} media="(min-width: 1024px)" />
-          <img
-            src={element.src}
-            alt={element.alt}
-            className={styles.headerImg}
-          />
-        </picture>
+        <Picture
+          src={element.mainImg.desktop}
+          srcSet={element.mainImg}
+          className={styles.headerImg}
+        />
       </div>
       <div className={styles.headerPost}>
         <h2 className={styles.headerPostTitle}>{element.title}</h2>
@@ -52,8 +53,13 @@ const Post = ({ element, updateData }) => {
 
 Post.propTypes = {
   updateData: PropTypes.func,
+
   element: PropTypes.shape({
-    src: PropTypes.string,
+    mainImg: PropTypes.shape({
+      desktop: PropTypes.string,
+      tablet: PropTypes.string,
+      mobile: PropTypes.string,
+    }),
     alt: PropTypes.string,
     id: PropTypes.string,
     title: PropTypes.string,
@@ -61,7 +67,11 @@ Post.propTypes = {
 
     postContent: PropTypes.arrayOf(
       PropTypes.shape({
-        src: PropTypes.string,
+        contentImg: PropTypes.shape({
+          desktop: PropTypes.string,
+          tablet: PropTypes.string,
+          mobile: PropTypes.string,
+        }),
         alt: PropTypes.string,
         id: PropTypes.string,
         title: PropTypes.string,
@@ -73,8 +83,13 @@ Post.propTypes = {
 
 Post.defaultProps = {
   updateData: null,
+
   element: PropTypes.shape({
-    src: null,
+    contentImg: PropTypes.shape({
+      desktop: null,
+      tablet: null,
+      mobile: null,
+    }),
     alt: null,
     id: null,
     title: null,
@@ -82,7 +97,11 @@ Post.defaultProps = {
 
     postContent: PropTypes.arrayOf(
       PropTypes.shape({
-        src: null,
+        contentImg: PropTypes.shape({
+          desktop: null,
+          tablet: null,
+          mobile: null,
+        }),
         alt: null,
         id: null,
         title: null,

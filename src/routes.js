@@ -1,4 +1,3 @@
-// import Home from 'pages/Home';
 import MySite from 'pages/MySite';
 // import UserInfo from 'pages/UserInfo';
 

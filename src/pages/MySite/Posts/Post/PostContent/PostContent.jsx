@@ -2,25 +2,23 @@ import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 
 import Parallax from 'components/Parallax';
+import Picture from 'components/Picture';
 
 import styles from './PostContent.scss';
 
 const PostContent = ({ element }) => {
-  // console.log(element, 'PostContent');
   return (
     <Fragment>
       {element.map(el => (
         <div className={styles.postContent} key={el.id}>
           <Parallax className={styles.imgWrapper}>
-            <picture className={styles.contentImg}>
-              <source srcSet={el.src} media="(min-width: 1024px)" />
-              <img
-                src={el.src}
-                alt={el.alt}
-                id={el.id}
+            <div className={styles.contentImg}>
+              <Picture
+                src={el.contentImg.desktop}
+                srcSet={el.contentImg}
                 className={styles.contentImg}
               />
-            </picture>
+            </div>
           </Parallax>
 
           <div className={styles.contentTextWrapper}>
@@ -36,9 +34,14 @@ const PostContent = ({ element }) => {
 PostContent.propTypes = {
   element: PropTypes.arrayOf(
     PropTypes.shape({
-      src: PropTypes.string,
+      contentImg: PropTypes.shape({
+        desktop: PropTypes.string,
+        tablet: PropTypes.string,
+        mobile: PropTypes.string,
+      }),
       alt: PropTypes.string,
       id: PropTypes.string,
+      title: PropTypes.string,
       textTitle: PropTypes.string,
     })
   ),
@@ -47,9 +50,14 @@ PostContent.propTypes = {
 PostContent.defaultProps = {
   element: PropTypes.arrayOf(
     PropTypes.shape({
-      src: null,
+      contentImg: PropTypes.shape({
+        desktop: null,
+        tablet: null,
+        mobile: null,
+      }),
       alt: null,
       id: null,
+      title: null,
       textTitle: null,
     })
   ),

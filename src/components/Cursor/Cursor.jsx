@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import classNames from 'classnames';
 import styles from './Cursor.scss';
@@ -17,20 +17,20 @@ const Cursor = () => {
     setPosition({ x: e.clientX, y: e.clientY });
   };
 
-  const addEventListeners = () => {
+  const addEventListeners = useCallback(() => {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseleave', onMouseLeave);
-  };
+  }, []);
 
-  const removeEventListeners = () => {
+  const removeEventListeners = useCallback(() => {
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseleave', onMouseLeave);
-  };
+  }, []);
 
   useEffect(() => {
     addEventListeners();
     return () => removeEventListeners();
-  }, []);
+  }, [addEventListeners, removeEventListeners]);
 
   const cursorClasses = cx(styles.cursor, {
     cursorHidden: hidden,

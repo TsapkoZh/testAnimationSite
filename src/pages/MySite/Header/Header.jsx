@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import disableScroll from 'disable-scroll';
 
 import Btn from 'components/Btn';
+import Picture from 'components/Picture';
 
 import styles from './Header.scss';
 import classNames from 'classnames/bind';
@@ -40,15 +41,31 @@ const Header = ({ content }) => {
           onClick={toggleClass}
         >
           <a href={`#${element.id}`}>
-            <picture>
-              <source srcSet={element.src} />
+            <Picture
+              src={element.mainImg.desktop}
+              srcSet={element.mainImg}
+              className={styles.post}
+            />
+            {/* <picture>
+              <source
+                srcSet={element.mainImg.desktop}
+                media="(min-width: 768px)"
+              />
+              <source
+                srcSet={element.mainImg.tablet}
+                media="(min-width: 480px)"
+              />
+              <source
+                srcSet={element.mainImg.mobile}
+                media="(min-width: 0px)"
+              />
               <img
                 className={styles.post}
-                src={element.src}
+                src={element.mainImg.desktop}
                 alt={element.alt}
                 key={element.id}
               />
-            </picture>
+            </picture> */}
           </a>
         </Btn>
       ))}

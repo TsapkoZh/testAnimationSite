@@ -5,7 +5,11 @@ export const getText = data => PrismicDOM.RichText.asText(data);
 export const serializer = data =>
   data.map(({ primary, items }) => {
     return {
-      src: primary.section_img.url,
+      mainImg: {
+        tablet: primary.section_img.tablet.url,
+        mobile: primary.section_img.mobile.url,
+        desktop: primary.section_img.url,
+      },
       alt: getText(primary.title),
       title: getText(primary.title),
       id: `_${Math.random()
@@ -14,7 +18,11 @@ export const serializer = data =>
       textTitle: getText(primary.description),
 
       postContent: items.map(item => ({
-        src: item.content_img.url,
+        contentImg: {
+          tablet: item.content_img.tablet.url,
+          mobile: item.content_img.mobile.url,
+          desktop: item.content_img.url,
+        },
         alt: getText(item.content_title),
         title: getText(item.content_title),
         id: `_${Math.random()

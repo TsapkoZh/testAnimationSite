@@ -6,12 +6,11 @@ import { TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
-import Header from './Header';
 import Post from './Post';
 
-import s from './Navigation.scss';
+import s from './Posts.scss';
 
-const Navigation = ({ content }) => {
+const Posts = ({ content }) => {
   const [activItem, setActivItem] = useState(0);
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
@@ -21,52 +20,53 @@ const Navigation = ({ content }) => {
     if (inView) {
       setActivItem(position);
     }
-  });
+  }, []);
 
-  const scrollToAnchor = useCallback(anchor => {
-    const proxyElements = contentWithOrder;
-    const newContent = contentWithOrder.map((el, i) => {
-      if (anchor === el.id) {
-        return {
-          ...el,
-          order: activItem * 10 + (i < activItem ? -5 : 5),
-        };
-      }
-      return el;
-    });
+  const scrollToAnchor = useCallback(
+    anchor => {
+      const proxyElements = [...contentWithOrder];
+      const newContent = contentWithOrder.map((el, i) => {
+        if (anchor === el.id) {
+          return {
+            ...el,
+            order: activItem * 10 + (i < activItem ? -5 : 5),
+          };
+        }
+        return el;
+      });
 
-    setContentWithOrder(newContent);
-    setEventPointerDisable(true);
+      setContentWithOrder(newContent);
+      setEventPointerDisable(true);
 
-    TweenMax.to(window, {
-      duration: 1,
-      scrollTo: `#${anchor}`,
-      onComplete: () => {
-        setContentWithOrder(proxyElements);
-        setEventPointerDisable(false);
+      TweenMax.to(window, {
+        duration: 1,
+        scrollTo: `#${anchor}`,
+        onComplete: () => {
+          setContentWithOrder(proxyElements);
+          setEventPointerDisable(false);
 
-        TweenMax.set(window, {
-          scrollTo: `#${anchor}`,
-        });
-      },
-    });
-  });
+          TweenMax.set(window, {
+            scrollTo: `#${anchor}`,
+          });
+        },
+      });
+    },
+    [contentWithOrder, activItem]
+  );
 
   const updateData = useCallback(value => {
     setUpdate(value);
-    console.log(update, 'update');
-  });
+  }, []);
 
   useEffect(() => {
     const newContent = content.map((el, i) => {
       return { ...el, order: i * 10 };
     });
     setContentWithOrder(newContent);
-  }, []);
+  }, [content]);
 
   return (
     <Fragment>
-      <Header content={contentWithOrder} />
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
@@ -75,17 +75,13 @@ const Navigation = ({ content }) => {
       >
         {contentWithOrder.map((element, index) => (
           <Btn
-            className={s.anchor}
+            className={classnames(s.anchor, {
+              [s.isCurrent]: activItem === index,
+            })}
             key={element.id}
             cbData={element.id}
             onClick={scrollToAnchor}
-          >
-            <div
-              className={classnames(s.anchorCurrent, {
-                [s.isCurrent]: activItem === index,
-              })}
-            />
-          </Btn>
+          />
         ))}
       </div>
       <div className={s.postsWrapper}>
@@ -94,9 +90,10 @@ const Navigation = ({ content }) => {
             as="div"
             onChange={handleChangItem}
             id={element.id}
-            key={element.id}
             cbData={i}
+            threshold={[0.1, 0.2]}
             style={{ order: element.order }}
+            key={element.id}
           >
             <Post updateData={updateData} element={element} />
           </InViewComp>
@@ -106,19 +103,29 @@ const Navigation = ({ content }) => {
   );
 };
 
-Navigation.propTypes = {
+Posts.propTypes = {
   content: PropTypes.arrayOf(
     PropTypes.shape({
-      src: PropTypes.string.isRequred,
+      mainImg: PropTypes.shape({
+        desktop: PropTypes.string,
+        tablet: PropTypes.string,
+        mobile: PropTypes.string,
+      }),
       alt: PropTypes.string,
       id: PropTypes.string.isRequred,
+      title: PropTypes.string.isRequred,
       textTitle: PropTypes.string.isRequred,
 
       postContent: PropTypes.arrayOf(
         PropTypes.shape({
-          src: PropTypes.string.isRequred,
+          contentImg: PropTypes.shape({
+            desktop: PropTypes.string,
+            tablet: PropTypes.string,
+            mobile: PropTypes.string,
+          }),
           alt: PropTypes.string,
           id: PropTypes.string.isRequred,
+          title: PropTypes.string.isRequred,
           textTitle: PropTypes.string.isRequred,
         })
       ),
@@ -126,19 +133,29 @@ Navigation.propTypes = {
   ),
 };
 
-Navigation.defaultProps = {
+Posts.defaultProps = {
   content: PropTypes.arrayOf(
     PropTypes.shape({
-      src: null,
+      mainImg: PropTypes.shape({
+        desktop: null,
+        tablet: null,
+        mobile: null,
+      }),
       alt: null,
       id: null,
+      title: null,
       textTitle: null,
 
       postContent: PropTypes.arrayOf(
         PropTypes.shape({
-          src: null,
+          contentImg: PropTypes.shape({
+            desktop: null,
+            tablet: null,
+            mobile: null,
+          }),
           alt: null,
           id: null,
+          title: null,
           textTitle: null,
         })
       ),
@@ -146,4 +163,4 @@ Navigation.defaultProps = {
   ),
 };
 
-export default React.memo(Navigation);
+export default React.memo(Posts);

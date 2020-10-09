@@ -2,21 +2,22 @@
 @import '~styles/variables';
 
 .postContent {
-  // position: sticky;
+  position: sticky;
   display: flex;
   justify-content: space-evenly;
   height: 25vw;
   width: 80%;
   color: black;
-  margin: 40vh auto 80vh;
+  margin: 40vh auto 100vh;
   background-color: $color-white;
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.315);
+  box-shadow: 0 0 9px 5px rgba(90, 90, 90, 0.315);
 
   @include _1024 {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin: 10vh auto 20vh;
+    height: max-content;
+    margin: 9vh auto;
     box-shadow: none;
   }
 }
@@ -30,8 +31,10 @@
     position: absolute;
     width: 100%;
     height: 35vw;
+    overflow: hidden;
+    background-position: center;
     object-fit: cover;
-    box-shadow: 0 0 25px 15px rgba(0, 0, 0, 0.315);
+    box-shadow: 0 0 9px 5px rgba(105, 105, 105, 0.315);
 
     @include _1360 {
       height: 38vw;
@@ -40,7 +43,13 @@
     @include _1024 {
       position: unset;
       box-shadow: none;
+      width: 100%;
     }
+  }
+
+  @include _1024 {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
@@ -53,17 +62,26 @@
   font-size: 1.5vw;
   font-weight: bold;
   margin-bottom: 1vw;
+  color: rgb(73, 73, 73);
 
   @include _1024 {
+    width: 80vw;
     text-align: center;
+    font-weight: 400;
+    font-size: 4vw;
+    margin: 3vh 0;
   }
 }
 
 .contentPostText {
-  width: 30vw;
+  width: 40vw;
   font-size: 1vw;
+  letter-spacing: 0.2vh;
+  line-height: 2.7vh;
 
   @include _1024 {
-    text-align: center;
+    width: 60vw;
+    font-size: 2vw;
+    margin: 0 auto;
   }
 }

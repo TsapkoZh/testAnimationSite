@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 /* import { Helmet } from 'react-helmet'; */
 
-// import config from 'config';
-
 import AppRouter from 'components/AppRouter';
 import 'styles/normalize.scss';
-// import logo from 'images/logo.svg';
 import styles from './App.scss';
 import useBrowser from 'hooks/useBrowser';
 
