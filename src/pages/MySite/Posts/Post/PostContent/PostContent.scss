@@ -8,7 +8,7 @@
   height: 25vw;
   width: 80%;
   color: $color-monochromacy;
-  margin: 40vh auto 100vh;
+  margin: 250px auto 500px;
   background-color: $color-white;
   box-shadow: 0 0 9px 5px rgba(90, 90, 90, 0.315);
 
@@ -17,7 +17,7 @@
     align-items: center;
     width: 100%;
     height: max-content;
-    margin: 9vh auto;
+    margin: 100px auto;
     box-shadow: none;
   }
 }
@@ -61,7 +61,7 @@
   width: 30vw;
   font-size: 1.5vw;
   font-weight: bold;
-  margin-bottom: 1vw;
+  margin-bottom: 20px;
   color: $color-monochromacy;
 
   @include _1024 {
@@ -69,7 +69,7 @@
     text-align: center;
     font-weight: 400;
     font-size: 4vw;
-    margin: 3vh 0;
+    margin: 25px 0;
   }
 }
 
