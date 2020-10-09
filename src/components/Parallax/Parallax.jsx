@@ -8,12 +8,12 @@ const Parallax = props => (
     <Scene duration="200%" triggerHook="onEnter">
       <Timeline wrapper={<div className={props.className} />}>
         <Tween
-          position=".5"
+          position="0"
           from={{
             top: '-30%',
           }}
           to={{
-            top: '55%',
+            top: '10%',
           }}
         >
           {props.children}
