@@ -7,7 +7,7 @@
   justify-content: space-evenly;
   height: 25vw;
   width: 80%;
-  color: black;
+  color: $color-monochromacy;
   margin: 40vh auto 100vh;
   background-color: $color-white;
   box-shadow: 0 0 9px 5px rgba(90, 90, 90, 0.315);
@@ -62,7 +62,7 @@
   font-size: 1.5vw;
   font-weight: bold;
   margin-bottom: 1vw;
-  color: rgb(73, 73, 73);
+  color: $color-monochromacy;
 
   @include _1024 {
     width: 80vw;

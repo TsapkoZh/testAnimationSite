@@ -49,12 +49,13 @@
   line-height: normal;
   margin: 0 auto;
   text-transform: uppercase;
-  color: rgb(73, 73, 73);
+  color: $color-monochromacy;
 }
 
 .headerPostText {
   width: 30vw;
   text-align: center;
+  line-height: normal;
   margin: 0.5vw auto 0;
   font-weight: 100;
   color: rgb(0, 0, 0);

@@ -46,26 +46,6 @@ const Header = ({ content }) => {
               srcSet={element.mainImg}
               className={styles.post}
             />
-            {/* <picture>
-              <source
-                srcSet={element.mainImg.desktop}
-                media="(min-width: 768px)"
-              />
-              <source
-                srcSet={element.mainImg.tablet}
-                media="(min-width: 480px)"
-              />
-              <source
-                srcSet={element.mainImg.mobile}
-                media="(min-width: 0px)"
-              />
-              <img
-                className={styles.post}
-                src={element.mainImg.desktop}
-                alt={element.alt}
-                key={element.id}
-              />
-            </picture> */}
           </a>
         </Btn>
       ))}
