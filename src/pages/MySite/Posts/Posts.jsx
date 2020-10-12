@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
 
-import { TweenMax } from 'gsap';
+import { gsap, TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
@@ -65,6 +65,20 @@ const Posts = ({ content }) => {
     setContentWithOrder(newContent);
   }, [content]);
 
+  useEffect(() => {
+    gsap.from('#progressLine', {
+      scrollTrigger: {
+        trigger: '#triggerProgressLine',
+        scrub: true,
+        start: 'top center',
+        end: 'bottom bottom',
+      },
+      scaleY: 0,
+      transformOrigin: 'top center',
+      ease: 'none',
+    });
+  }, []);
+
   return (
     <Fragment>
       <div
@@ -73,18 +87,21 @@ const Posts = ({ content }) => {
           [s.isOpacity]: update === false,
         })}
       >
+        <div className={s.progressLine} id="progressLine" />
+
         {contentWithOrder.map((element, index) => (
-          <Btn
-            className={classnames(s.anchor, {
-              [s.isCurrent]: activItem === index,
-            })}
-            key={element.id}
-            cbData={element.id}
-            onClick={scrollToAnchor}
-          />
+          <div className={s.wrapAnchor} key={element.id}>
+            <Btn
+              className={classnames(s.anchor, {
+                [s.isCurrent]: activItem === index,
+              })}
+              cbData={element.id}
+              onClick={scrollToAnchor}
+            />
+          </div>
         ))}
       </div>
-      <div className={s.postsWrapper}>
+      <div className={s.postsWrapper} id="triggerProgressLine">
         {contentWithOrder.map((element, i) => (
           <InViewComp
             as="div"

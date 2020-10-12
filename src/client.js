@@ -9,7 +9,7 @@ import routes from './routes';
 import { rootSaga } from 'models';
 import configureStore from './store';
 
-import { gsap, ScrollToPlugin } from 'gsap/all';
+import { gsap, ScrollToPlugin, ScrollTrigger } from 'gsap/all';
 
 import './components/App';
 
@@ -23,7 +23,7 @@ const store = configureStore(history, initialState);
 store.runSaga(rootSaga);
 
 /* GSAP register */
-gsap.registerPlugin(ScrollToPlugin);
+gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
 const renderDom = process.env.APP_ENV === 'development' ? render : hydrate;
 const mountNode = document.getElementById('react-view');
