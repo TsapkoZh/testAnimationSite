@@ -10,9 +10,21 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const Header = ({ content }) => {
+const Header = ({ content, idInView }) => {
   const [currentItem, setCurrentitem] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
+
+  const elementIdInView = idInView;
+  console.log(elementIdInView, 'elementIdInView');
+
+  if (elementIdInView !== 0) {
+    setTimeout(() => {
+      setCurrentitem(false);
+      setVisibilityHeader(false);
+    }, 1001);
+  }
+
+  console.log(elementIdInView, 'elementIdInView-2');
 
   const toggleClass = useCallback(id => {
     setTimeout(() => {
@@ -30,6 +42,7 @@ const Header = ({ content }) => {
       className={cx(styles.header, {
         isVisibility: visibilityHeader,
       })}
+      // onChange={backToMenu}
     >
       {content.map(element => (
         <Btn

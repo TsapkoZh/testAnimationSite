@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import memoryCache from 'memory-cache';
 import chalk from 'chalk';
 import { createMemoryHistory } from 'history';

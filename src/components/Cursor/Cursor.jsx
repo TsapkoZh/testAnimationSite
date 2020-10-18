@@ -9,6 +9,8 @@ const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hidden, setHidden] = useState(false);
 
+  console.log(position, 'position');
+
   const onMouseLeave = () => {
     setHidden(true);
   };
@@ -40,8 +42,7 @@ const Cursor = () => {
     <div
       className={cursorClasses}
       style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
+        transform: `translate(${position.x - 13}px, ${position.y - 13}px)`,
       }}
     />
   );

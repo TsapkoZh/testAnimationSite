@@ -1,6 +1,9 @@
+/* eslint-disable */
+
 import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
+import ResizeObserver from 'rc-resize-observer';
 
 import { gsap, TweenMax } from 'gsap';
 
@@ -10,17 +13,39 @@ import Post from './Post';
 
 import s from './Posts.scss';
 
-const Posts = ({ content }) => {
+const Posts = ({ content, elementIdInView }) => {
   const [activItem, setActivItem] = useState(0);
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
   const [update, setUpdate] = useState(false);
+  // const [idInView, setIdInView] = useState('');
 
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
       setActivItem(position);
     }
   }, []);
+
+  const updateData = useCallback(value => {
+    setUpdate(value);
+    console.log(value, 'updateData');
+  }, []);
+
+  const isId = useCallback(value => {
+    // setIdInView(value);
+    setTimeout(() => {
+      // setUpdate(false);
+    }, 900);
+  }, []);
+
+  // const getActiveItem = () => {
+  //   elementIdInView(idInView);
+
+  //   TweenMax.to(window, {
+  //     duration: 1,
+  //     scrollTo: `#${idInView}`,
+  //   });
+  // };
 
   const scrollToAnchor = useCallback(
     anchor => {
@@ -54,10 +79,6 @@ const Posts = ({ content }) => {
     [contentWithOrder, activItem]
   );
 
-  const updateData = useCallback(value => {
-    setUpdate(value);
-  }, []);
-
   useEffect(() => {
     const newContent = content.map((el, i) => {
       return { ...el, order: i * 10 };
@@ -65,10 +86,12 @@ const Posts = ({ content }) => {
     setContentWithOrder(newContent);
   }, [content]);
 
+  // progress line scrollbar
+  // ==================================
   useEffect(() => {
     gsap.from('#progressLine', {
       scrollTrigger: {
-        trigger: '#triggerProgressLine',
+        trigger: 'body',
         scrub: true,
         start: 'top center',
         end: 'bottom bottom',
@@ -79,8 +102,15 @@ const Posts = ({ content }) => {
     });
   }, []);
 
+  const handleResize = useCallback(() => {
+    ScrollTrigger.refresh();
+  }, []);
+
   return (
     <Fragment>
+      {/* <button className={s.btnReturn} onClick={getActiveItem}>
+        back
+      </button> */}
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
@@ -101,7 +131,10 @@ const Posts = ({ content }) => {
           </div>
         ))}
       </div>
-      <div className={s.postsWrapper} id="triggerProgressLine">
+      <ResizeObserver 
+        className={s.postsWrapper} 
+        onResize={handleResize}
+      >
         {contentWithOrder.map((element, i) => (
           <InViewComp
             as="div"
@@ -112,10 +145,10 @@ const Posts = ({ content }) => {
             style={{ order: element.order }}
             key={element.id}
           >
-            <Post updateData={updateData} element={element} />
+            <Post updateData={updateData} idInView={isId} element={element} />
           </InViewComp>
         ))}
-      </div>
+      </ResizeObserver>
     </Fragment>
   );
 };

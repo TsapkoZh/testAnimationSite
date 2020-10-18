@@ -6,48 +6,52 @@ import InViewComp from 'components/InViewComp';
 import Picture from 'components/Picture';
 
 import styles from './Post.scss';
+import Opacity from 'components/Opacity';
 
-const Post = ({ element, updateData }) => {
+const Post = ({ element, updateData, idInView }) => {
   const [viewAnchor, setViewAnchor] = useState(false);
 
   const hiddenAnchor = useCallback(
-    (position, inView) => {
+    (id, inView) => {
       if (inView) {
         setViewAnchor(true);
       } else {
         setViewAnchor(false);
       }
       updateData(viewAnchor);
+      idInView(id);
     },
-    [updateData, viewAnchor]
+    [updateData, viewAnchor, idInView]
   );
 
   return (
-    <div className={styles.postWrapper}>
-      <InViewComp
-        as="div"
-        onChange={hiddenAnchor}
-        key={element.id}
-        cbData={element.id}
-        threshold={0.2}
-        className={styles.hlp}
-      />
-      <div className={styles.headerImgWrapper}>
-        <Picture
-          src={element.mainImg.desktop}
-          srcSet={element.mainImg}
-          className={styles.headerImg}
+    <Opacity duration="160%">
+      <div className={styles.postWrapper}>
+        <InViewComp
+          as="div"
+          onChange={hiddenAnchor}
+          key={element.id}
+          cbData={element.id}
+          threshold={0.2}
+          className={styles.hlp}
         />
-      </div>
-      <div className={styles.headerPost}>
-        <h2 className={styles.headerPostTitle}>{element.title}</h2>
-        <p className={styles.headerPostText}>{element.textTitle}</p>
-      </div>
+        <div className={styles.headerImgWrapper}>
+          <Picture
+            src={element.mainImg.desktop}
+            srcSet={element.mainImg}
+            className={styles.headerImg}
+          />
+        </div>
+        <div className={styles.headerPost}>
+          <h2 className={styles.headerPostTitle}>{element.title}</h2>
+          <p className={styles.headerPostText}>{element.textTitle}</p>
+        </div>
 
-      <div className={styles.postContentWrap}>
-        <PostContent element={element.postContent} />
+        <div className={styles.postContentWrap}>
+          <PostContent element={element.postContent} />
+        </div>
       </div>
-    </div>
+    </Opacity>
   );
 };
 

@@ -1,31 +1,42 @@
 import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 
+import classnames from 'classnames';
+
 import Parallax from 'components/Parallax';
 import Picture from 'components/Picture';
+import Opacity from 'components/Opacity';
 
 import styles from './PostContent.scss';
 
 const PostContent = ({ element }) => {
+  const even = n => !(n % 2);
+
   return (
     <Fragment>
-      {element.map(el => (
-        <div className={styles.postContent} key={el.id}>
-          <Parallax className={styles.imgWrapper}>
-            <div className={styles.contentImg}>
-              <Picture
-                src={el.contentImg.desktop}
-                srcSet={el.contentImg}
-                className={styles.contentImg}
-              />
-            </div>
-          </Parallax>
+      {element.map((el, i) => (
+        <Opacity duration="70%" key={el.id}>
+          <div
+            className={classnames(styles.postContent, {
+              [styles.postContentReverse]: even(i) === false,
+            })}
+          >
+            <Parallax className={styles.imgWrapper}>
+              <div className={styles.contentImg}>
+                <Picture
+                  src={el.contentImg.desktop}
+                  srcSet={el.contentImg}
+                  className={styles.contentImg}
+                />
+              </div>
+            </Parallax>
 
-          <div className={styles.contentTextWrapper}>
-            <h3 className={styles.contentPostTitle}>{el.title}</h3>
-            <p className={styles.contentPostText}>{el.text}</p>
+            <div className={styles.contentTextWrapper} style={{ order: '20' }}>
+              <h3 className={styles.contentPostTitle}>{el.title}</h3>
+              <p className={styles.contentPostText}>{el.text}</p>
+            </div>
           </div>
-        </div>
+        </Opacity>
       ))}
     </Fragment>
   );

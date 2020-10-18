@@ -10,7 +10,7 @@ const Parallax = props => (
         <Tween
           position="0"
           from={{
-            top: '-30%',
+            top: '-45%',
           }}
           to={{
             top: '10%',

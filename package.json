@@ -171,6 +171,7 @@
     "prismic-dom": "^2.2.4",
     "prismic-javascript": "^3.0.2",
     "prop-types": "^15.7.2",
+    "rc-resize-observer": "^0.2.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-gsap": "^2.2.1",
