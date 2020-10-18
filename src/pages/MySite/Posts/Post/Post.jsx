@@ -4,11 +4,11 @@ import { PropTypes } from 'prop-types';
 import PostContent from './PostContent';
 import InViewComp from 'components/InViewComp';
 import Picture from 'components/Picture';
-
-import styles from './Post.scss';
 import Opacity from 'components/Opacity';
 
-const Post = ({ element, updateData, idInView }) => {
+import styles from './Post.scss';
+
+const Post = ({ element, updateHidden, idInView }) => {
   const [viewAnchor, setViewAnchor] = useState(false);
 
   const hiddenAnchor = useCallback(
@@ -18,14 +18,14 @@ const Post = ({ element, updateData, idInView }) => {
       } else {
         setViewAnchor(false);
       }
-      updateData(viewAnchor);
+      updateHidden(viewAnchor);
       idInView(id);
     },
-    [updateData, viewAnchor, idInView]
+    [updateHidden, viewAnchor, idInView]
   );
 
   return (
-    <Opacity duration="160%">
+    <Opacity duration="140%">
       <div className={styles.postWrapper}>
         <InViewComp
           as="div"
@@ -56,7 +56,8 @@ const Post = ({ element, updateData, idInView }) => {
 };
 
 Post.propTypes = {
-  updateData: PropTypes.func,
+  updateHidden: PropTypes.func,
+  idInView: PropTypes.func,
 
   element: PropTypes.shape({
     mainImg: PropTypes.shape({
@@ -86,7 +87,8 @@ Post.propTypes = {
 };
 
 Post.defaultProps = {
-  updateData: null,
+  updateHidden: null,
+  idInView: null,
 
   element: PropTypes.shape({
     contentImg: PropTypes.shape({

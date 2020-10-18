@@ -1,10 +1,8 @@
-/* eslint-disable */
-
 import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
+
 import classnames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-
 import { gsap, TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
@@ -17,8 +15,8 @@ const Posts = ({ content, elementIdInView }) => {
   const [activItem, setActivItem] = useState(0);
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
-  const [update, setUpdate] = useState(false);
-  // const [idInView, setIdInView] = useState('');
+  const [updateHidden, setUpdateHidden] = useState(false);
+  const [idInView, setIdInView] = useState('');
 
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
@@ -26,26 +24,23 @@ const Posts = ({ content, elementIdInView }) => {
     }
   }, []);
 
-  const updateData = useCallback(value => {
-    setUpdate(value);
-    console.log(value, 'updateData');
+  const handleUpdateHidden = useCallback(value => {
+    setUpdateHidden(value);
   }, []);
 
   const isId = useCallback(value => {
-    // setIdInView(value);
-    setTimeout(() => {
-      // setUpdate(false);
-    }, 900);
+    setIdInView(value);
   }, []);
 
-  // const getActiveItem = () => {
-  //   elementIdInView(idInView);
+  const backToHeader = () => {
+    TweenMax.to(window, {
+      duration: 1,
+      scrollTo: `#${idInView}`,
+    });
 
-  //   TweenMax.to(window, {
-  //     duration: 1,
-  //     scrollTo: `#${idInView}`,
-  //   });
-  // };
+    elementIdInView(idInView);
+    setUpdateHidden(false);
+  };
 
   const scrollToAnchor = useCallback(
     anchor => {
@@ -108,13 +103,13 @@ const Posts = ({ content, elementIdInView }) => {
 
   return (
     <Fragment>
-      {/* <button className={s.btnReturn} onClick={getActiveItem}>
+      <button className={s.btnReturn} onClick={backToHeader}>
         back
-      </button> */}
+      </button>
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
-          [s.isOpacity]: update === false,
+          [s.isOpacity]: updateHidden === false,
         })}
       >
         <div className={s.progressLine} id="progressLine" />
@@ -131,10 +126,8 @@ const Posts = ({ content, elementIdInView }) => {
           </div>
         ))}
       </div>
-      <ResizeObserver 
-        className={s.postsWrapper} 
-        onResize={handleResize}
-      >
+      <ResizeObserver onResize={handleResize}>
+      <div className={s.postsWrapper}>
         {contentWithOrder.map((element, i) => (
           <InViewComp
             as="div"
@@ -145,15 +138,22 @@ const Posts = ({ content, elementIdInView }) => {
             style={{ order: element.order }}
             key={element.id}
           >
-            <Post updateData={updateData} idInView={isId} element={element} />
+            <Post 
+              updateHidden={handleUpdateHidden}
+              idInView={isId}
+              element={element}
+            />
           </InViewComp>
         ))}
+        </div>
       </ResizeObserver>
     </Fragment>
   );
 };
 
 Posts.propTypes = {
+  elementIdInView: PropTypes.func,
+
   content: PropTypes.arrayOf(
     PropTypes.shape({
       mainImg: PropTypes.shape({
@@ -184,6 +184,8 @@ Posts.propTypes = {
 };
 
 Posts.defaultProps = {
+  elementIdInView: null,
+
   content: PropTypes.arrayOf(
     PropTypes.shape({
       mainImg: PropTypes.shape({

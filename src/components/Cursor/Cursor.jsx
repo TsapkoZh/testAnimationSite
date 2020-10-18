@@ -9,8 +9,6 @@ const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hidden, setHidden] = useState(false);
 
-  console.log(position, 'position');
-
   const onMouseLeave = () => {
     setHidden(true);
   };

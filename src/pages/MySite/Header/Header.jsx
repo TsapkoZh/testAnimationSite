@@ -14,17 +14,12 @@ const Header = ({ content, idInView }) => {
   const [currentItem, setCurrentitem] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
 
-  const elementIdInView = idInView;
-  console.log(elementIdInView, 'elementIdInView');
-
-  if (elementIdInView !== 0) {
+  if (idInView !== 0) {
     setTimeout(() => {
       setCurrentitem(false);
       setVisibilityHeader(false);
-    }, 1001);
+    }, 1005);
   }
-
-  console.log(elementIdInView, 'elementIdInView-2');
 
   const toggleClass = useCallback(id => {
     setTimeout(() => {
@@ -42,7 +37,6 @@ const Header = ({ content, idInView }) => {
       className={cx(styles.header, {
         isVisibility: visibilityHeader,
       })}
-      // onChange={backToMenu}
     >
       {content.map(element => (
         <Btn
@@ -67,9 +61,14 @@ const Header = ({ content, idInView }) => {
 };
 
 Header.propTypes = {
+  idInView: PropTypes.number,
   content: PropTypes.arrayOf(
     PropTypes.shape({
-      src: PropTypes.string.isRequred,
+      mainImg: PropTypes.shape({
+        desktop: PropTypes.string,
+        tablet: PropTypes.string,
+        mobile: PropTypes.string,
+      }),
       alt: PropTypes.string,
       id: PropTypes.string.isRequred,
       textTitle: PropTypes.string.isRequred,
@@ -87,9 +86,14 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  idInView: null,
   content: PropTypes.arrayOf(
     PropTypes.shape({
-      src: null,
+      mainImg: PropTypes.shape({
+        desktop: null,
+        tablet: null,
+        mobile: null,
+      }),
       alt: null,
       id: null,
       textTitle: null,

@@ -10,8 +10,6 @@ import Cursor from 'components/Cursor';
 const MySite = () => {
   const [elementIdInView, setElementIdInView] = useState(0);
 
-  console.log(elementIdInView, 'elementIdInView');
-
   const onFetchData = useAction(actions.fetchData);
   useEffect(() => {
     onFetchData();
@@ -23,7 +21,7 @@ const MySite = () => {
     setElementIdInView(value);
     setTimeout(() => {
       setElementIdInView(0);
-    }, 900);
+    }, 1000);
   }, []);
 
   return (
