@@ -3,11 +3,12 @@ import { PropTypes } from 'prop-types';
 
 import classnames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import { gsap, TweenMax } from 'gsap';
+import { gsap, TweenMax, ScrollTrigger } from 'gsap/all';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
 import Post from './Post';
+import { disableScroll, enableScroll } from 'utils/eventScroll';
 
 import s from './Posts.scss';
 
@@ -16,7 +17,6 @@ const Posts = ({ content, elementIdInView }) => {
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
   const [updateHidden, setUpdateHidden] = useState(false);
-  const [idInView, setIdInView] = useState('');
 
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
@@ -28,19 +28,12 @@ const Posts = ({ content, elementIdInView }) => {
     setUpdateHidden(value);
   }, []);
 
-  const isId = useCallback(value => {
-    setIdInView(value);
-  }, []);
-
-  const backToHeader = () => {
-    TweenMax.to(window, {
-      duration: 1,
-      scrollTo: `#${idInView}`,
-    });
-
-    elementIdInView(idInView);
-    setUpdateHidden(false);
-  };
+  const idInView = useCallback(
+    value => {
+      elementIdInView(value);
+    },
+    [elementIdInView]
+  );
 
   const scrollToAnchor = useCallback(
     anchor => {
@@ -57,9 +50,10 @@ const Posts = ({ content, elementIdInView }) => {
 
       setContentWithOrder(newContent);
       setEventPointerDisable(true);
+      disableScroll();
 
       TweenMax.to(window, {
-        duration: 1,
+        duration: 0.6,
         scrollTo: `#${anchor}`,
         onComplete: () => {
           setContentWithOrder(proxyElements);
@@ -70,6 +64,10 @@ const Posts = ({ content, elementIdInView }) => {
           });
         },
       });
+
+      setTimeout(() => {
+        enableScroll();
+      }, 601);
     },
     [contentWithOrder, activItem]
   );
@@ -103,9 +101,6 @@ const Posts = ({ content, elementIdInView }) => {
 
   return (
     <Fragment>
-      <button className={s.btnReturn} onClick={backToHeader}>
-        back
-      </button>
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
@@ -127,24 +122,24 @@ const Posts = ({ content, elementIdInView }) => {
         ))}
       </div>
       <ResizeObserver onResize={handleResize}>
-      <div className={s.postsWrapper}>
-        {contentWithOrder.map((element, i) => (
-          <InViewComp
-            as="div"
-            onChange={handleChangItem}
-            id={element.id}
-            cbData={i}
-            threshold={[0.1, 0.2]}
-            style={{ order: element.order }}
-            key={element.id}
-          >
-            <Post 
-              updateHidden={handleUpdateHidden}
-              idInView={isId}
-              element={element}
-            />
-          </InViewComp>
-        ))}
+        <div className={s.postsWrapper}>
+          {contentWithOrder.map((element, i) => (
+            <InViewComp
+              as="div"
+              onChange={handleChangItem}
+              id={element.id}
+              cbData={i}
+              threshold={[0.1, 0.2]}
+              style={{ order: element.order }}
+              key={element.id}
+            >
+              <Post
+                updateHidden={handleUpdateHidden}
+                idInView={idInView}
+                element={element}
+              />
+            </InViewComp>
+          ))}
         </div>
       </ResizeObserver>
     </Fragment>

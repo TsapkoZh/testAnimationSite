@@ -24,6 +24,10 @@
 
 .postContentReverse {
   flex-direction: row-reverse;
+
+  @include _1024 {
+    flex-direction: column;
+  }
 }
 
 .imgWrapper {

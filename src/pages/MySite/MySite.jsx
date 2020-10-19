@@ -8,7 +8,7 @@ import Posts from './Posts';
 import Cursor from 'components/Cursor';
 
 const MySite = () => {
-  const [elementIdInView, setElementIdInView] = useState(0);
+  const [idInView, setIdInView] = useState('_');
 
   const onFetchData = useAction(actions.fetchData);
   useEffect(() => {
@@ -17,18 +17,15 @@ const MySite = () => {
 
   const content = useSelector(state => state.data.posts);
 
-  const idInView = useCallback(value => {
-    setElementIdInView(value);
-    setTimeout(() => {
-      setElementIdInView(0);
-    }, 1000);
+  const cbId = useCallback(elementIdInView => {
+    setIdInView(elementIdInView);
   }, []);
 
   return (
     <Fragment>
       <Cursor />
-      <Header idInView={elementIdInView} content={content} />
-      <Posts elementIdInView={idInView} content={content} />
+      <Header content={content} idInView={idInView} />
+      <Posts content={content} elementIdInView={cbId} />
     </Fragment>
   );
 };

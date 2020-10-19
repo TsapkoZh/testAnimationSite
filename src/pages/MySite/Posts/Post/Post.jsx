@@ -13,7 +13,7 @@ const Post = ({ element, updateHidden, idInView }) => {
 
   const hiddenAnchor = useCallback(
     (id, inView) => {
-      if (inView) {
+      if (!inView) {
         setViewAnchor(true);
       } else {
         setViewAnchor(false);
@@ -32,7 +32,7 @@ const Post = ({ element, updateHidden, idInView }) => {
           onChange={hiddenAnchor}
           key={element.id}
           cbData={element.id}
-          threshold={0.2}
+          threshold={[0.05, 0.2]}
           className={styles.hlp}
         />
         <div className={styles.headerImgWrapper}>

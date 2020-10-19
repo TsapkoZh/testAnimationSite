@@ -42,38 +42,39 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border: 1px solid $color-horizon;
   background-color: white;
   border-radius: 50%;
   margin: -10px 0;
   z-index: 10;
+  transition: 1s;
+
+  &:hover {
+    background-color: $color-horizon;
+  }
+
+  @include _1024 {
+    &:hover {
+      background-color: white;
+    }
+  }
 }
 
 .anchor {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   border: 1px solid $color-horizon;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0);
-  transition: 1s;
-
-  &:hover {
-    background-color: rgb(90, 175, 104);
-  }
+  background-color: white;
+  transition: all 1s;
 
   &.anchorCurrent {
     background-color: $color-horizon;
-  }
-
-  @include _1024 {
-    &:hover {
-      border: 1px solid $color-horizon;
-    }
   }
 }
 
@@ -87,17 +88,4 @@
 
 .isOpacity {
   opacity: 0;
-}
-
-.btnReturn {
-  position: fixed;
-  color: black;
-  top: 30vh;
-  left: 95vw;
-  z-index: 500;
-  transition: 0.5s;
-
-  &:hover {
-    background-color: chartreuse;
-  }
 }
