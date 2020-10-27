@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { PropTypes } from 'prop-types';
 
 import PostContent from './PostContent';
@@ -8,20 +8,13 @@ import Opacity from 'components/Opacity';
 
 import styles from './Post.scss';
 
-const Post = ({ element, updateHidden, idInView }) => {
-  const [viewAnchor, setViewAnchor] = useState(false);
-
+const Post = ({ element, updateHidden, getIdInView }) => {
   const hiddenAnchor = useCallback(
     (id, inView) => {
-      if (!inView) {
-        setViewAnchor(true);
-      } else {
-        setViewAnchor(false);
-      }
-      updateHidden(viewAnchor);
-      idInView(id);
+      updateHidden(inView);
+      getIdInView(id);
     },
-    [updateHidden, viewAnchor, idInView]
+    [updateHidden, getIdInView]
   );
 
   return (
@@ -57,7 +50,7 @@ const Post = ({ element, updateHidden, idInView }) => {
 
 Post.propTypes = {
   updateHidden: PropTypes.func,
-  idInView: PropTypes.func,
+  getIdInView: PropTypes.func,
 
   element: PropTypes.shape({
     mainImg: PropTypes.shape({
@@ -88,7 +81,7 @@ Post.propTypes = {
 
 Post.defaultProps = {
   updateHidden: null,
-  idInView: null,
+  getIdInView: null,
 
   element: PropTypes.shape({
     contentImg: PropTypes.shape({

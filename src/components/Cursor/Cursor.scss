@@ -3,7 +3,7 @@
 
 html,
 body {
-  cursor: none;
+  // cursor: none;
 }
 
 a {
@@ -22,7 +22,7 @@ a {
   transition: all 50ms ease;
   transition-property: opacity, background-color, transform, mix-blend-mode;
 
-  @include _1024 {
+  @include _media-max1024 {
     display: none;
   }
 }

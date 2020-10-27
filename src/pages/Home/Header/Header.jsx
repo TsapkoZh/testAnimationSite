@@ -8,9 +8,7 @@ import Picture from 'components/Picture';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
 
 import styles from './Header.scss';
-import classNames from 'classnames/bind';
-
-const cx = classNames.bind(styles);
+import classnames from 'classnames';
 
 const Header = ({ content, idInView }) => {
   const [currentItem, setCurrentitem] = useState(false);
@@ -18,34 +16,32 @@ const Header = ({ content, idInView }) => {
 
   const toggleClass = useCallback(id => {
     TweenMax.to(window, {
-      duration: 0.4,
+      duration: 0.9,
       scrollTo: `#${id}`,
+      onComplete: () => {
+        enableScroll();
+      },
     });
 
     disableScroll();
     setCurrentitem(id);
     setVisibilityHeader(true);
-
-    setTimeout(() => {
-      enableScroll();
-    }, 1001);
   }, []);
 
-  const backToHeader = () => {
+  const backToHeader = useCallback(() => {
     TweenMax.to(window, {
       duration: 1,
       scrollTo: `#${idInView}`,
+      onComplete: () => {
+        setCurrentitem(false);
+        setVisibilityHeader(false);
+        enableScroll();
+      },
     });
 
     setCurrentitem(idInView);
     disableScroll();
-
-    setTimeout(() => {
-      setCurrentitem(false);
-      setVisibilityHeader(false);
-      enableScroll();
-    }, 1005);
-  };
+  }, [idInView]);
 
   return (
     <Fragment>
@@ -53,14 +49,14 @@ const Header = ({ content, idInView }) => {
         back
       </button>
       <div
-        className={cx(styles.header, {
-          isVisibility: visibilityHeader,
+        className={classnames(styles.header, {
+          [styles.isVisibility]: visibilityHeader,
         })}
       >
         {content.map(element => (
           <Btn
-            className={cx(styles.imgWrapper, {
-              isHiden: element.id !== currentItem && currentItem,
+            className={classnames(styles.imgWrapper, {
+              [styles.isHiden]: element.id !== currentItem && currentItem,
             })}
             key={element.id}
             cbData={element.id}

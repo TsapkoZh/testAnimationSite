@@ -2,7 +2,6 @@
 @import '~styles/variables';
 
 .postContent {
-  position: sticky;
   display: flex;
   justify-content: space-evenly;
   height: 25vw;
@@ -12,7 +11,7 @@
   background-color: $color-white;
   box-shadow: 0 0 9px 5px rgba(90, 90, 90, 0.315);
 
-  @include _1024 {
+  @include _media-max1024 {
     flex-direction: column;
     align-items: center;
     width: 100%;
@@ -25,17 +24,17 @@
 .postContentReverse {
   flex-direction: row-reverse;
 
-  @include _1024 {
+  @include _media-max1024 {
     flex-direction: column;
   }
 }
 
-.imgWrapper {
+.imgParallax {
   position: relative;
   height: 100%;
   width: 20vw;
 
-  .contentImg {
+  .imgWrapper {
     position: absolute;
     width: 100%;
     height: 35vw;
@@ -44,35 +43,41 @@
     object-fit: cover;
     box-shadow: 0 0 9px 5px rgba(105, 105, 105, 0.315);
 
-    @include _1360 {
+    @include _media-max1360 {
       height: 38vw;
     }
 
-    @include _1024 {
+    @include _media-max1024 {
       position: unset;
       box-shadow: none;
       width: 100%;
     }
   }
 
-  @include _1024 {
+  .contentImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include _media-max1024 {
     width: 80%;
     margin: 0 auto;
   }
 }
 
-.contentTextWrapper {
+.textWrapper {
   margin: auto 0;
 }
 
-.contentPostTitle {
+.postTitle {
   width: 30vw;
   font-size: 1.5vw;
   font-weight: bold;
   margin-bottom: 20px;
   color: $color-monochromacy;
 
-  @include _1024 {
+  @include _media-max1024 {
     width: 80vw;
     text-align: center;
     font-weight: 400;
@@ -81,13 +86,13 @@
   }
 }
 
-.contentPostText {
+.postText {
   width: 40vw;
   font-size: 1vw;
   letter-spacing: 0.2vh;
   line-height: 2.7vh;
 
-  @include _1024 {
+  @include _media-max1024 {
     width: 60vw;
     font-size: 2vw;
     margin: 0 auto;

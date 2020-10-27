@@ -1,27 +1,17 @@
-/* eslint-disable */
-
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Tween, Timeline } from "react-gsap";
+import { Tween, Timeline } from 'react-gsap';
 import { Controller, Scene } from 'react-scrollmagic';
 
-const Opacity = ({ children, duration }) => {
-  return (
-    <Controller>
-      <Scene 
-        indicators={false} 
-        duration={duration}
-        triggerHook="onEnter" 
-      >
-        <Timeline>
-          <Tween opacity="0">
-            {children}
-          </Tween>
-        </Timeline>
-      </Scene>
-    </Controller>
-  );
-}
+const Opacity = ({ children, duration }) => (
+  <Controller>
+    <Scene indicators={false} duration={duration} triggerHook="onEnter">
+      <Timeline>
+        <Tween opacity="0">{children}</Tween>
+      </Timeline>
+    </Scene>
+  </Controller>
+);
 
 Opacity.propTypes = {
   children: PropTypes.object,

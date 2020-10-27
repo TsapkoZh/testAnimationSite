@@ -1,4 +1,4 @@
-import MySite from 'pages/MySite';
+import Home from 'pages/Home';
 // import UserInfo from 'pages/UserInfo';
 
 // import { fetchUsers, fetchUser } from 'models/users/sagas';
@@ -9,9 +9,9 @@ export default [
     path: '/',
     exact: true,
     cache: false,
-    component: MySite,
+    component: Home,
     sagasToRun: [fetchData],
-    title: 'MySite',
+    title: 'Home',
   },
   // {
   //   path: '/users/:id',

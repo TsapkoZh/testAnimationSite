@@ -60,7 +60,7 @@
   font-weight: 100;
   color: rgb(0, 0, 0);
 
-  @include _1024 {
+  @include _media-max1024 {
     font-size: 2vw;
   }
 }

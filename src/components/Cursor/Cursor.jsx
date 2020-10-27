@@ -40,7 +40,7 @@ const Cursor = () => {
     <div
       className={cursorClasses}
       style={{
-        transform: `translate(${position.x - 13}px, ${position.y - 13}px)`,
+        transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     />
   );

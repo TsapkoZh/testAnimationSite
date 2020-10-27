@@ -5,9 +5,8 @@ import { actions } from 'models/data/slice';
 
 import Header from './Header';
 import Posts from './Posts';
-import Cursor from 'components/Cursor';
 
-const MySite = () => {
+const Home = () => {
   const [idInView, setIdInView] = useState('_');
 
   const onFetchData = useAction(actions.fetchData);
@@ -23,11 +22,10 @@ const MySite = () => {
 
   return (
     <Fragment>
-      <Cursor />
       <Header content={content} idInView={idInView} />
       <Posts content={content} elementIdInView={cbId} />
     </Fragment>
   );
 };
 
-export default React.memo(MySite);
+export default React.memo(Home);

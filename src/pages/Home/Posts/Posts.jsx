@@ -3,10 +3,11 @@ import { PropTypes } from 'prop-types';
 
 import classnames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import { gsap, TweenMax, ScrollTrigger } from 'gsap/all';
+import { TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
+import ProgressLine from 'components/ProgressLine';
 import Post from './Post';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
 
@@ -28,7 +29,7 @@ const Posts = ({ content, elementIdInView }) => {
     setUpdateHidden(value);
   }, []);
 
-  const idInView = useCallback(
+  const getIdInView = useCallback(
     value => {
       elementIdInView(value);
     },
@@ -58,16 +59,13 @@ const Posts = ({ content, elementIdInView }) => {
         onComplete: () => {
           setContentWithOrder(proxyElements);
           setEventPointerDisable(false);
+          enableScroll();
 
           TweenMax.set(window, {
             scrollTo: `#${anchor}`,
           });
         },
       });
-
-      setTimeout(() => {
-        enableScroll();
-      }, 601);
     },
     [contentWithOrder, activItem]
   );
@@ -79,24 +77,8 @@ const Posts = ({ content, elementIdInView }) => {
     setContentWithOrder(newContent);
   }, [content]);
 
-  // progress line scrollbar
-  // ==================================
-  useEffect(() => {
-    gsap.from('#progressLine', {
-      scrollTrigger: {
-        trigger: 'body',
-        scrub: true,
-        start: 'top center',
-        end: 'bottom bottom',
-      },
-      scaleY: 0,
-      transformOrigin: 'top center',
-      ease: 'none',
-    });
-  }, []);
-
   const handleResize = useCallback(() => {
-    ScrollTrigger.refresh();
+    window.ScrollTrigger.refresh();
   }, []);
 
   return (
@@ -104,10 +86,10 @@ const Posts = ({ content, elementIdInView }) => {
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
-          [s.isOpacity]: updateHidden === false,
+          [s.isOpacity]: updateHidden === true,
         })}
       >
-        <div className={s.progressLine} id="progressLine" />
+        <ProgressLine />
 
         {contentWithOrder.map((element, index) => (
           <div className={s.wrapAnchor} key={element.id}>
@@ -135,7 +117,7 @@ const Posts = ({ content, elementIdInView }) => {
             >
               <Post
                 updateHidden={handleUpdateHidden}
-                idInView={idInView}
+                getIdInView={getIdInView}
                 element={element}
               />
             </InViewComp>

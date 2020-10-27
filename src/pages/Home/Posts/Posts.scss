@@ -25,7 +25,7 @@
   transition: opacity 0.4s;
   z-index: 14;
 
-  @include _1024 {
+  @include _media-max1024 {
     left: 92vw;
   }
 }
@@ -55,7 +55,7 @@
     background-color: $color-horizon;
   }
 
-  @include _1024 {
+  @include _media-max1024 {
     &:hover {
       background-color: white;
     }

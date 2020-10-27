@@ -8,7 +8,7 @@
   width: 100vw;
   z-index: 50;
 
-  @include _1024 {
+  @include _media-max1024 {
     flex-direction: column;
     height: 100vh;
   }
@@ -20,7 +20,7 @@
   overflow: hidden;
   font-size: large;
   width: 100vw;
-  transition: 0.7s;
+  transition: 1s;
   transform: translate3d(0, 0, 0);
   background-color: $color-white;
 }
@@ -34,7 +34,7 @@
   width: 100vw;
   object-fit: cover;
   filter: brightness(99%);
-  transition: filter 0.5s;
+  transition: filter 1s;
   background-color: transparent;
 
   &:hover {
@@ -45,15 +45,16 @@
 
 .isHiden {
   width: 0;
+  transition: 1s;
 
-  @include _1024 {
+  @include _media-max1024 {
     height: 0;
     width: 100vw;
   }
 }
 
 .isVisibility {
-  transition-delay: 0.6s;
+  transition-delay: 1.05s;
   visibility: hidden;
   z-index: -100;
 }
@@ -64,7 +65,7 @@
   top: 30vh;
   left: 95vw;
   z-index: 500;
-  transition: 0.5s;
+  transition: 1s;
 
   &:hover {
     background-color: chartreuse;

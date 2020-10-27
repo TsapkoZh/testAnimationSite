@@ -8,39 +8,36 @@ import Picture from 'components/Picture';
 import Opacity from 'components/Opacity';
 
 import styles from './PostContent.scss';
+import { even } from 'utils/even';
 
-const PostContent = ({ element }) => {
-  const even = n => !(n % 2);
-
-  return (
-    <Fragment>
-      {element.map((el, i) => (
-        <Opacity duration="70%" key={el.id}>
-          <div
-            className={classnames(styles.postContent, {
-              [styles.postContentReverse]: even(i) === false,
-            })}
-          >
-            <Parallax className={styles.imgWrapper}>
-              <div className={styles.contentImg}>
-                <Picture
-                  src={el.contentImg.desktop}
-                  srcSet={el.contentImg}
-                  className={styles.contentImg}
-                />
-              </div>
-            </Parallax>
-
-            <div className={styles.contentTextWrapper} style={{ order: '20' }}>
-              <h3 className={styles.contentPostTitle}>{el.title}</h3>
-              <p className={styles.contentPostText}>{el.text}</p>
+const PostContent = ({ element }) => (
+  <Fragment>
+    {element.map((el, i) => (
+      <Opacity duration="70%" key={el.id}>
+        <div
+          className={classnames(styles.postContent, {
+            [styles.postContentReverse]: even(i) === false,
+          })}
+        >
+          <Parallax className={styles.imgParallax}>
+            <div className={styles.imgWrapper}>
+              <Picture
+                src={el.contentImg.desktop}
+                srcSet={el.contentImg}
+                className={styles.contentImg}
+              />
             </div>
+          </Parallax>
+
+          <div className={styles.textWrapper}>
+            <h3 className={styles.postTitle}>{el.title}</h3>
+            <p className={styles.postText}>{el.text}</p>
           </div>
-        </Opacity>
-      ))}
-    </Fragment>
-  );
-};
+        </div>
+      </Opacity>
+    ))}
+  </Fragment>
+);
 
 PostContent.propTypes = {
   element: PropTypes.arrayOf(

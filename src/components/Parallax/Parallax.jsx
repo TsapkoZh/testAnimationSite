@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Controller, Scene } from 'react-scrollmagic';
 import { Tween, Timeline } from 'react-gsap';
 
-const Parallax = props => (
+const Parallax = ({ className, children }) => (
   <Controller>
     <Scene duration="200%" triggerHook="onEnter">
-      <Timeline wrapper={<div className={props.className} />}>
+      <Timeline wrapper={<div className={className} />}>
         <Tween
           position="0"
           from={{
@@ -16,7 +16,7 @@ const Parallax = props => (
             top: '10%',
           }}
         >
-          {props.children}
+          {children}
         </Tween>
       </Timeline>
     </Scene>

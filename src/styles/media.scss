@@ -1,10 +1,10 @@
-@mixin _1360 {
+@mixin _media-max1360 {
   @media (max-width: 1360px) {
     @content;
   }
 }
 
-@mixin _1024 {
+@mixin _media-max1024 {
   @media (max-width: 1024px) {
     @content;
   }
