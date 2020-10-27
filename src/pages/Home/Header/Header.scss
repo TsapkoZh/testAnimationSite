@@ -36,11 +36,10 @@
   filter: brightness(99%);
   transition: filter 1s;
   background-color: transparent;
+}
 
-  &:hover {
-    filter: brightness(120%);
-    opacity: 0.8;
-  }
+.postHover:hover {
+  filter: brightness(150%);
 }
 
 .isHiden {

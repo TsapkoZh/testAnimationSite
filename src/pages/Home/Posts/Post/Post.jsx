@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { PropTypes } from 'prop-types';
+import classnames from 'classnames';
 
 import PostContent from './PostContent';
 import InViewComp from 'components/InViewComp';
@@ -8,7 +9,7 @@ import Opacity from 'components/Opacity';
 
 import styles from './Post.scss';
 
-const Post = ({ element, updateHidden, getIdInView }) => {
+const Post = ({ element, updateHidden, getIdInView, i }) => {
   const hiddenAnchor = useCallback(
     (id, inView) => {
       updateHidden(inView);
@@ -18,7 +19,7 @@ const Post = ({ element, updateHidden, getIdInView }) => {
   );
 
   return (
-    <Opacity duration="140%">
+    <Opacity duration={i === 0 ? '100%' : '130%'}>
       <div className={styles.postWrapper}>
         <InViewComp
           as="div"
@@ -28,7 +29,11 @@ const Post = ({ element, updateHidden, getIdInView }) => {
           threshold={[0.05, 0.2]}
           className={styles.hlp}
         />
-        <div className={styles.headerImgWrapper}>
+        <div
+          className={classnames(styles.headerImgWrapper, {
+            [styles.firstHeaderImgWrapper]: i === 0,
+          })}
+        >
           <Picture
             src={element.mainImg.desktop}
             srcSet={element.mainImg}

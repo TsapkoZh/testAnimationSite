@@ -17,7 +17,10 @@ const Header = ({ content, idInView }) => {
   const toggleClass = useCallback(id => {
     TweenMax.to(window, {
       duration: 0.9,
-      scrollTo: `#${id}`,
+      scrollTo: {
+        y: `#${id}`,
+        offsetY: -350,
+      },
       onComplete: () => {
         enableScroll();
       },
@@ -57,6 +60,7 @@ const Header = ({ content, idInView }) => {
           <Btn
             className={classnames(styles.imgWrapper, {
               [styles.isHiden]: element.id !== currentItem && currentItem,
+              [styles.postHover]: !visibilityHeader,
             })}
             key={element.id}
             cbData={element.id}

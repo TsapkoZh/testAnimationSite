@@ -54,15 +54,15 @@ const Posts = ({ content, elementIdInView }) => {
       disableScroll();
 
       TweenMax.to(window, {
-        duration: 0.6,
-        scrollTo: `#${anchor}`,
+        duration: 0.9,
+        scrollTo: { y: `#${anchor}`, offsetY: -350 },
         onComplete: () => {
           setContentWithOrder(proxyElements);
           setEventPointerDisable(false);
           enableScroll();
 
           TweenMax.set(window, {
-            scrollTo: `#${anchor}`,
+            scrollTo: { y: `#${anchor}`, offsetY: -350 },
           });
         },
       });
@@ -119,6 +119,7 @@ const Posts = ({ content, elementIdInView }) => {
                 updateHidden={handleUpdateHidden}
                 getIdInView={getIdInView}
                 element={element}
+                i={i}
               />
             </InViewComp>
           ))}
