@@ -7,9 +7,11 @@ import { TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
+import Opacity from 'components/Opacity';
 import ProgressLine from 'components/ProgressLine';
 import Post from './Post';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
+import { getIndex } from 'utils/getIndex';
 
 import s from './Posts.scss';
 
@@ -17,7 +19,7 @@ const Posts = ({ content, elementIdInView }) => {
   const [activItem, setActivItem] = useState(0);
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
-  const [updateHidden, setUpdateHidden] = useState(false);
+  const [updateHidden, setUpdateHidden] = useState(true);
 
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
@@ -55,19 +57,25 @@ const Posts = ({ content, elementIdInView }) => {
 
       TweenMax.to(window, {
         duration: 0.9,
-        scrollTo: { y: `#${anchor}`, offsetY: -350 },
+        scrollTo: {
+          y: `#${anchor}`,
+          offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
+        },
         onComplete: () => {
           setContentWithOrder(proxyElements);
           setEventPointerDisable(false);
           enableScroll();
 
           TweenMax.set(window, {
-            scrollTo: { y: `#${anchor}`, offsetY: -350 },
+            scrollTo: {
+              y: `#${anchor}`,
+              offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
+            },
           });
         },
       });
     },
-    [contentWithOrder, activItem]
+    [contentWithOrder, activItem, content]
   );
 
   useEffect(() => {
@@ -90,7 +98,6 @@ const Posts = ({ content, elementIdInView }) => {
         })}
       >
         <ProgressLine />
-
         {contentWithOrder.map((element, index) => (
           <div className={s.wrapAnchor} key={element.id}>
             <Btn
@@ -115,12 +122,25 @@ const Posts = ({ content, elementIdInView }) => {
               style={{ order: element.order }}
               key={element.id}
             >
-              <Post
-                updateHidden={handleUpdateHidden}
-                getIdInView={getIdInView}
-                element={element}
-                i={i}
-              />
+              {i === 0 ? (
+                <Post
+                  updateHidden={handleUpdateHidden}
+                  getIdInView={getIdInView}
+                  element={element}
+                  i={i}
+                />
+              ) : (
+                <Opacity duration="130%">
+                  <div>
+                    <Post
+                      updateHidden={handleUpdateHidden}
+                      getIdInView={getIdInView}
+                      element={element}
+                      i={i}
+                    />
+                  </div>
+                </Opacity>
+              )}
             </InViewComp>
           ))}
         </div>

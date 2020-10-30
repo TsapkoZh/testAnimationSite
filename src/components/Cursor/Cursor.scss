@@ -10,23 +10,26 @@ a {
   cursor: none;
 }
 
+.cursorWrapper {
+  position: fixed;
+  transition: all 50ms ease;
+  z-index: 9999;
+}
+
 .cursor {
   width: 25px;
   height: 25px;
   border: 1px solid $color-horizon;
   border-radius: 100%;
-  position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  position: fixed;
+  top: -13px;
+  left: -13px;
   mix-blend-mode: difference;
-  transition: all 50ms ease;
   transition-property: opacity, background-color, transform, mix-blend-mode;
-
-  @include _media-max1024 {
-    display: none;
-  }
 }
 
 .cursorHidden {
+  transition: 0.1s;
   opacity: 0;
 }

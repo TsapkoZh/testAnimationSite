@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 /* import { Helmet } from 'react-helmet'; */
 
 import AppRouter from 'components/AppRouter';
-import Cursor from 'components/Cursor';
+import CursorWrapper from 'components/Cursor';
 
 import 'styles/normalize.scss';
 import styles from './App.scss';
@@ -25,7 +25,7 @@ const App = ({ routes }) => {
         <h1>{config.app.title}</h1>
       </div> */}
       {/* <hr /> */}
-      <Cursor />
+      <CursorWrapper />
       <AppRouter routes={routes} />
     </div>
   );

@@ -1,1 +1,1 @@
-export { default } from './Cursor';
+export { default } from './CursorWrapper';

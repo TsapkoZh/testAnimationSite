@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import PostContent from './PostContent';
 import InViewComp from 'components/InViewComp';
 import Picture from 'components/Picture';
-import Opacity from 'components/Opacity';
 
 import styles from './Post.scss';
 
@@ -19,43 +18,44 @@ const Post = ({ element, updateHidden, getIdInView, i }) => {
   );
 
   return (
-    <Opacity duration={i === 0 ? '100%' : '130%'}>
-      <div className={styles.postWrapper}>
-        <InViewComp
-          as="div"
-          onChange={hiddenAnchor}
-          key={element.id}
-          cbData={element.id}
-          threshold={[0.05, 0.2]}
-          className={styles.hlp}
+    <div className={styles.postWrapper}>
+      <InViewComp
+        as="div"
+        onChange={hiddenAnchor}
+        key={element.id}
+        cbData={element.id}
+        threshold={[0.05, 0.2]}
+        className={classnames(styles.hlp, {
+          [styles.hlpFirst]: i === 0,
+        })}
+      />
+      <div
+        className={classnames(styles.headerImgWrapper, {
+          [styles.firstHeaderImgWrapper]: i === 0,
+        })}
+      >
+        <Picture
+          src={element.mainImg.desktop}
+          srcSet={element.mainImg}
+          className={styles.headerImg}
         />
-        <div
-          className={classnames(styles.headerImgWrapper, {
-            [styles.firstHeaderImgWrapper]: i === 0,
-          })}
-        >
-          <Picture
-            src={element.mainImg.desktop}
-            srcSet={element.mainImg}
-            className={styles.headerImg}
-          />
-        </div>
-        <div className={styles.headerPost}>
-          <h2 className={styles.headerPostTitle}>{element.title}</h2>
-          <p className={styles.headerPostText}>{element.textTitle}</p>
-        </div>
-
-        <div className={styles.postContentWrap}>
-          <PostContent element={element.postContent} />
-        </div>
       </div>
-    </Opacity>
+      <div className={styles.headerPost}>
+        <h2 className={styles.headerPostTitle}>{element.title}</h2>
+        <p className={styles.headerPostText}>{element.textTitle}</p>
+      </div>
+
+      <div className={styles.postContentWrap}>
+        <PostContent element={element.postContent} />
+      </div>
+    </div>
   );
 };
 
 Post.propTypes = {
   updateHidden: PropTypes.func,
   getIdInView: PropTypes.func,
+  i: PropTypes.number,
 
   element: PropTypes.shape({
     mainImg: PropTypes.shape({
@@ -87,6 +87,7 @@ Post.propTypes = {
 Post.defaultProps = {
   updateHidden: null,
   getIdInView: null,
+  i: null,
 
   element: PropTypes.shape({
     contentImg: PropTypes.shape({

@@ -6,73 +6,117 @@ import { TweenMax } from 'gsap';
 import Btn from 'components/Btn';
 import Picture from 'components/Picture';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
+import { getIndex } from 'utils/getIndex';
 
-import styles from './Header.scss';
+import back from 'images/back.svg';
+
+import s from './Header.scss';
 import classnames from 'classnames';
 
 const Header = ({ content, idInView }) => {
   const [currentItem, setCurrentitem] = useState(false);
+  const [currentItemZindex, setCurrentitemZindex] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
 
-  const toggleClass = useCallback(id => {
-    TweenMax.to(window, {
-      duration: 0.9,
-      scrollTo: {
-        y: `#${id}`,
-        offsetY: -350,
-      },
-      onComplete: () => {
-        enableScroll();
-      },
-    });
+  const toggleClass = useCallback(
+    id => {
+      TweenMax.to(window, {
+        duration: 1,
+        scrollTo: {
+          y: `#${id}`,
+          offsetY: `${getIndex(id, content) === 0 ? 0 : -350}`,
+        },
+        onComplete: () => {
+          enableScroll();
+          setVisibilityHeader(true);
+        },
+      });
 
-    disableScroll();
-    setCurrentitem(id);
-    setVisibilityHeader(true);
-  }, []);
+      disableScroll();
+      setCurrentitem(id);
+      setCurrentitemZindex(id);
+    },
+    [content]
+  );
 
   const backToHeader = useCallback(() => {
     TweenMax.to(window, {
       duration: 1,
-      scrollTo: `#${idInView}`,
+      scrollTo: {
+        y: `#${idInView}`,
+        offsetY: `${getIndex(idInView, content) === 0 ? 0 : -350}`,
+      },
       onComplete: () => {
         setCurrentitem(false);
         setVisibilityHeader(false);
+        setTimeout(() => {
+          setCurrentitemZindex(false);
+        }, 1000);
         enableScroll();
       },
     });
 
+    setCurrentitemZindex(idInView);
     setCurrentitem(idInView);
     disableScroll();
-  }, [idInView]);
+  }, [idInView, content]);
+
+  const transDistance = (i, id) => {
+    if (currentItem === id) {
+      return 0;
+    }
+    return (100 / content.length) * i - (100 - 100 / content.length) / 2;
+  };
 
   return (
     <Fragment>
-      <button className={styles.btnReturn} onClick={backToHeader}>
-        back
+      <button className={s.btnReturn} onClick={backToHeader}>
+        <img className={s.imgBack} src={back} alt="back" role="presentation" />
       </button>
       <div
-        className={classnames(styles.header, {
-          [styles.isVisibility]: visibilityHeader,
+        className={classnames(s.header, {
+          [s.isVisibility]: visibilityHeader,
         })}
       >
-        {content.map(element => (
-          <Btn
-            className={classnames(styles.imgWrapper, {
-              [styles.isHiden]: element.id !== currentItem && currentItem,
-              [styles.postHover]: !visibilityHeader,
-            })}
-            key={element.id}
-            cbData={element.id}
-            onClick={toggleClass}
-            id={`#${element.id}`}
-          >
-            <Picture
-              src={element.mainImg.desktop}
-              srcSet={element.mainImg}
-              className={styles.post}
+        <div className={s.wrapperBtn}>
+          {content.map(element => (
+            <Btn
+              key={element.id}
+              cbData={element.id}
+              onClick={toggleClass}
+              id={`#${element.id}`}
+              className={s.click}
             />
-          </Btn>
+          ))}
+        </div>
+        {content.map((el, i) => (
+          <div
+            key={el.id}
+            className={classnames(s.imgWrapper, {
+              [s.active]: el.id === currentItem && currentItem,
+              [s.activeZindex]:
+                el.id === currentItemZindex && currentItemZindex,
+            })}
+            style={{
+              transform: `translateX(${transDistance(i, el.id)}%)`,
+            }}
+          >
+            <div className={`${s.div} ${s.div1}`}>
+              <div className={`${s.div} ${s.div2}`}>
+                <div className={`${s.div} ${s.div3}`}>
+                  <div className={`${s.div} ${s.div4}`}>
+                    <Picture
+                      src={el.mainImg.desktop}
+                      srcSet={el.mainImg}
+                      className={classnames(s.post, {
+                        [s.active]: el.id === currentItem && currentItem,
+                      })}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </Fragment>

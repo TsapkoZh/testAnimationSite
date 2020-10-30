@@ -14,59 +14,102 @@
   }
 }
 
-.imgWrapper {
-  position: relative;
+.wrapperBtn {
+  width: 100%;
   height: 100vh;
   overflow: hidden;
-  font-size: large;
-  width: 100vw;
+  display: flex;
+  position: absolute;
+  z-index: 60;
+}
+
+.click {
+  width: 100%;
+  height: 100%;
+}
+
+.imgWrapper {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
   transition: 1s;
-  transform: translate3d(0, 0, 0);
-  background-color: $color-white;
+  position: absolute;
+}
+
+.div {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  transition: 1s;
+}
+
+.div1 {
+  transform: translate3d(37.5%, 0, 0);
+}
+
+.div2 {
+  transform: translate3d(-37.5%, 0, 0);
+}
+
+.div3 {
+  transform: translate3d(-37.5%, 0, 0);
+}
+
+.div4 {
+  transform: translate3d(37.5%, 0, 0);
 }
 
 .post {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
   height: 100vh;
-  width: 100vw;
   object-fit: cover;
-  filter: brightness(99%);
-  transition: filter 1s;
-  background-color: transparent;
 }
 
 .postHover:hover {
   filter: brightness(150%);
 }
 
-.isHiden {
-  width: 0;
-  transition: 1s;
-
-  @include _media-max1024 {
-    height: 0;
-    width: 100vw;
-  }
-}
-
 .isVisibility {
-  transition-delay: 1.05s;
+  // transition-delay: 1s;
   visibility: hidden;
   z-index: -100;
 }
 
+.active {
+  transform: translate3d(0, 0, 0);
+}
+
+.activeZindex {
+  z-index: 10;
+}
+
+.active div {
+  transition: 1s;
+  transform: translate3d(0, 0, 0);
+}
+
 .btnReturn {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: black;
-  top: 30vh;
-  left: 95vw;
-  z-index: 500;
-  transition: 1s;
+  border-radius: 5px;
+  top: 95vh;
+  left: 2vw;
+  height: 22px;
+  width: 22px;
+  z-index: 15;
+  transition: box-shadow 1s;
+  background-color: rgb(238, 238, 238);
+  cursor: none;
 
   &:hover {
-    background-color: chartreuse;
+    box-shadow: 0 0 9px 5px rgba(90, 90, 90, 0.315);
   }
+}
+
+.imgBack {
+  width: 20px;
+  height: 20px;
 }

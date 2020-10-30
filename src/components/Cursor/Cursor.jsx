@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import classNames from 'classnames';
-import styles from './Cursor.scss';
+import classnames from 'classnames';
 
-const cx = classNames.bind(styles);
+import styles from './Cursor.scss';
 
 const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
 
   const onMouseLeave = () => {
-    setHidden(true);
+    setHidden(false);
   };
 
   const onMouseMove = e => {
     setPosition({ x: e.clientX, y: e.clientY });
+    setHidden(true);
   };
 
   const addEventListeners = useCallback(() => {
@@ -32,17 +32,17 @@ const Cursor = () => {
     return () => removeEventListeners();
   }, [addEventListeners, removeEventListeners]);
 
-  const cursorClasses = cx(styles.cursor, {
-    cursorHidden: hidden,
-  });
-
   return (
     <div
-      className={cursorClasses}
+      className={classnames(styles.cursorWrapper, {
+        [styles.cursorHidden]: hidden === false,
+      })}
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
-    />
+    >
+      <div className={styles.cursor} />
+    </div>
   );
 };
 
