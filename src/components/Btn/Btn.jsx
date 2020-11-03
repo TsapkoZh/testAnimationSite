@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import CursorContext from 'components/ContextWrapper';
+import CursorContext from 'components/ContextWrapper/CursorContext';
 
 class Btn extends PureComponent {
   handleClick = () => {
@@ -14,10 +14,10 @@ class Btn extends PureComponent {
 
     return (
       <CursorContext.Consumer>
-        {setMouse => (
+        {setHover => (
           <div
-            onMouseLeave={setMouse.mLeave}
-            onMouseMove={setMouse.mMove}
+            onMouseLeave={setHover.onCursorLeave}
+            onMouseMove={setHover.onCursorEnter}
             className={className}
             onClick={this.handleClick}
           >

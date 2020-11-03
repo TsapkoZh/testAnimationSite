@@ -3,12 +3,12 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import classnames from 'classnames';
 import styles from './Cursor.scss';
 
-import CursorContext from 'components/ContextWrapper';
+import CursorContext from 'components/ContextWrapper/CursorContext';
 
 const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hidden, setHidden] = useState(true);
-  const leave = useContext(CursorContext);
+  const { isHover } = useContext(CursorContext);
 
   const onMouseLeave = () => {
     setHidden(false);
@@ -45,7 +45,7 @@ const Cursor = () => {
     >
       <div
         className={classnames(styles.cursor, {
-          [styles.mouseMove]: !leave.mouseLeave,
+          [styles.cursorEnter]: isHover,
         })}
       />
     </div>

@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 import CursorContext from './CursorContext';
 
 const ContextWrapper = ({ children }) => {
-  const [mouseLeave, setMouseLeave] = useState(false);
+  const [isHover, setHover] = useState(true);
 
-  const mLeave = () => {
-    setMouseLeave(false);
-  };
+  const onCursorLeave = useCallback(() => {
+    setHover(true);
+  }, []);
 
-  const mMove = () => {
-    setMouseLeave(true);
-  };
+  const onCursorEnter = useCallback(() => {
+    setHover(false);
+  }, []);
+
   return (
-    <CursorContext.Provider value={{ mLeave, mMove, mouseLeave }}>
+    <CursorContext.Provider value={{ onCursorLeave, onCursorEnter, isHover }}>
       {children}
     </CursorContext.Provider>
   );
+};
+
+ContextWrapper.propTypes = {
+  children: PropTypes.object,
+};
+
+ContextWrapper.defaultProps = {
+  children: null,
 };
 
 export default React.memo(ContextWrapper);

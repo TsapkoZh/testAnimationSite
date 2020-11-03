@@ -9,20 +9,10 @@ import useBrowser from 'hooks/useBrowser';
 import 'styles/normalize.scss';
 import styles from './App.scss';
 
-// import CursorContext from 'components/ContextWrapper';
 import ContextWrapper from 'components/ContextWrapper';
 
 const App = ({ routes }) => {
   const browser = useBrowser();
-  // const [mouseLeave, setMouseLeave] = React.useState(false);
-
-  // const mLeave = () => {
-  //   setMouseLeave(false);
-  // };
-
-  // const mMove = () => {
-  //   setMouseLeave(true);
-  // };
 
   if (RUNTIME_ENV === 'client') {
     console.info('browser', browser);
@@ -30,12 +20,10 @@ const App = ({ routes }) => {
 
   return (
     <div className={styles.app}>
-      {/* <CursorContext.Provider value={{ mLeave, mMove, mouseLeave }}> */}
       <ContextWrapper>
         <CursorWrapper />
         <AppRouter routes={routes} />
       </ContextWrapper>
-      {/* </CursorContext.Provider> */}
 
       {/* Use Helmet only in SPA mode. Render app head on server side  */}
       {/* <Helmet {...config.app} /> */}

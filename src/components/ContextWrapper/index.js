@@ -1,1 +1,1 @@
-export { default } from './CursorContext';
+export { default } from './ContextWrapper';
