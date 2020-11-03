@@ -1,7 +1,6 @@
 import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 
-import classnames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import { TweenMax } from 'gsap';
 
@@ -10,9 +9,11 @@ import InViewComp from 'components/InViewComp';
 import Opacity from 'components/Opacity';
 import ProgressLine from 'components/ProgressLine';
 import Post from './Post';
+
 import { disableScroll, enableScroll } from 'utils/eventScroll';
 import { getIndex } from 'utils/getIndex';
 
+import classnames from 'classnames';
 import s from './Posts.scss';
 
 const Posts = ({ content, elementIdInView }) => {
@@ -20,6 +21,7 @@ const Posts = ({ content, elementIdInView }) => {
   const [contentWithOrder, setContentWithOrder] = useState([]);
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
   const [updateHidden, setUpdateHidden] = useState(true);
+  const [isEnable, setIsEnamble] = useState(true);
 
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
@@ -37,7 +39,6 @@ const Posts = ({ content, elementIdInView }) => {
     },
     [elementIdInView]
   );
-
   const scrollToAnchor = useCallback(
     anchor => {
       const proxyElements = [...contentWithOrder];
@@ -62,14 +63,20 @@ const Posts = ({ content, elementIdInView }) => {
           offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
         },
         onComplete: () => {
+          setIsEnamble(false);
           setContentWithOrder(proxyElements);
           setEventPointerDisable(false);
-          enableScroll();
 
           TweenMax.set(window, {
             scrollTo: {
               y: `#${anchor}`,
               offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
+            },
+            onComplete: () => {
+              setTimeout(() => {
+                enableScroll();
+                setIsEnamble(true);
+              }, 60);
             },
           });
         },
@@ -130,7 +137,7 @@ const Posts = ({ content, elementIdInView }) => {
                   i={i}
                 />
               ) : (
-                <Opacity duration="130%">
+                <Opacity isEnable={isEnable} duration="130%">
                   <div>
                     <Post
                       updateHidden={handleUpdateHidden}
@@ -148,10 +155,8 @@ const Posts = ({ content, elementIdInView }) => {
     </Fragment>
   );
 };
-
 Posts.propTypes = {
   elementIdInView: PropTypes.func,
-
   content: PropTypes.arrayOf(
     PropTypes.shape({
       mainImg: PropTypes.shape({
@@ -163,7 +168,6 @@ Posts.propTypes = {
       id: PropTypes.string.isRequred,
       title: PropTypes.string.isRequred,
       textTitle: PropTypes.string.isRequred,
-
       postContent: PropTypes.arrayOf(
         PropTypes.shape({
           contentImg: PropTypes.shape({
@@ -180,10 +184,8 @@ Posts.propTypes = {
     })
   ),
 };
-
 Posts.defaultProps = {
   elementIdInView: null,
-
   content: PropTypes.arrayOf(
     PropTypes.shape({
       mainImg: PropTypes.shape({
@@ -195,7 +197,6 @@ Posts.defaultProps = {
       id: null,
       title: null,
       textTitle: null,
-
       postContent: PropTypes.arrayOf(
         PropTypes.shape({
           contentImg: PropTypes.shape({
@@ -212,5 +213,4 @@ Posts.defaultProps = {
     })
   ),
 };
-
 export default React.memo(Posts);

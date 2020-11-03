@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 import classnames from 'classnames';
-
 import styles from './Cursor.scss';
+
+import CursorContext from 'components/ContextWrapper';
 
 const Cursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hidden, setHidden] = useState(true);
+  const leave = useContext(CursorContext);
 
   const onMouseLeave = () => {
     setHidden(false);
@@ -41,7 +43,11 @@ const Cursor = () => {
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
-      <div className={styles.cursor} />
+      <div
+        className={classnames(styles.cursor, {
+          [styles.mouseMove]: !leave.mouseLeave,
+        })}
+      />
     </div>
   );
 };

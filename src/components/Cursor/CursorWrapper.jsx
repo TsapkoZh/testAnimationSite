@@ -4,7 +4,8 @@ import useBrowser from 'hooks/useBrowser';
 import Cursor from './Cursor';
 
 const CursorWrapper = () => {
-  const [isMobile, setMobile] = useState(true);
+  const [isMobile, setMobile] = useState(false);
+
   const {
     platform: { type },
   } = useBrowser();

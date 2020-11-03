@@ -1,32 +1,32 @@
 @import '~styles/media';
 @import '~styles/variables';
 
-html,
-body {
-  // cursor: none;
-}
-
 a {
   cursor: none;
 }
 
 .cursorWrapper {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 50ms ease;
   z-index: 9999;
 }
 
 .cursor {
-  width: 25px;
-  height: 25px;
-  border: 1px solid $color-horizon;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   pointer-events: none;
+  border: 1px solid $color-horizon;
   position: fixed;
-  top: -13px;
-  left: -13px;
-  mix-blend-mode: difference;
-  transition-property: opacity, background-color, transform, mix-blend-mode;
+  transform: scale(1.6);
+  transition: 0.5s;
+}
+
+.mouseMove {
+  transform: scale(1);
 }
 
 .cursorHidden {

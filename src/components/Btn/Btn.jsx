@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import CursorContext from 'components/ContextWrapper';
+
 class Btn extends PureComponent {
   handleClick = () => {
     const { onClick, cbData } = this.props;
@@ -11,9 +13,18 @@ class Btn extends PureComponent {
     const { className, children } = this.props;
 
     return (
-      <div className={className} onClick={this.handleClick}>
-        {children}
-      </div>
+      <CursorContext.Consumer>
+        {setMouse => (
+          <div
+            onMouseLeave={setMouse.mLeave}
+            onMouseMove={setMouse.mMove}
+            className={className}
+            onClick={this.handleClick}
+          >
+            {children}
+          </div>
+        )}
+      </CursorContext.Consumer>
     );
   }
 }

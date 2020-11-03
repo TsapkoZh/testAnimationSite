@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from 'react';
+import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 
 import { TweenMax } from 'gsap';
@@ -7,6 +7,7 @@ import Btn from 'components/Btn';
 import Picture from 'components/Picture';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
 import { getIndex } from 'utils/getIndex';
+import useBrowser from 'hooks/useBrowser';
 
 import back from 'images/back.svg';
 
@@ -17,9 +18,39 @@ const Header = ({ content, idInView }) => {
   const [currentItem, setCurrentitem] = useState(false);
   const [currentItemZindex, setCurrentitemZindex] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
+  const [isMobile, setMobile] = useState(false);
+
+  const {
+    platform: { type },
+  } = useBrowser();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  let transformVector = 'X';
+  if (type !== 'desktop' || isMobile) {
+    transformVector = 'Y';
+  } else {
+    transformVector = 'X';
+  }
+
+  console.log(isMobile, 'isMobile');
 
   const toggleClass = useCallback(
     id => {
+      if (currentItem) {
+        return;
+      }
+
       TweenMax.to(window, {
         duration: 1,
         scrollTo: {
@@ -36,7 +67,7 @@ const Header = ({ content, idInView }) => {
       setCurrentitem(id);
       setCurrentitemZindex(id);
     },
-    [content]
+    [content, currentItem]
   );
 
   const backToHeader = useCallback(() => {
@@ -71,7 +102,14 @@ const Header = ({ content, idInView }) => {
   return (
     <Fragment>
       <button className={s.btnReturn} onClick={backToHeader}>
-        <img className={s.imgBack} src={back} alt="back" role="presentation" />
+        <Btn>
+          <img
+            className={s.imgBack}
+            src={back}
+            alt="back"
+            role="presentation"
+          />
+        </Btn>
       </button>
       <div
         className={classnames(s.header, {
@@ -85,7 +123,9 @@ const Header = ({ content, idInView }) => {
               cbData={element.id}
               onClick={toggleClass}
               id={`#${element.id}`}
-              className={s.click}
+              className={classnames(s.btn, {
+                [s.btnHover]: !currentItem,
+              })}
             />
           ))}
         </div>
@@ -98,13 +138,49 @@ const Header = ({ content, idInView }) => {
                 el.id === currentItemZindex && currentItemZindex,
             })}
             style={{
-              transform: `translateX(${transDistance(i, el.id)}%)`,
+              transform: `translate${transformVector}(${transDistance(
+                i,
+                el.id
+              )}%)`,
             }}
+            gh={console.log(transDistance(content.length - 1, el.id))}
           >
-            <div className={`${s.div} ${s.div1}`}>
-              <div className={`${s.div} ${s.div2}`}>
-                <div className={`${s.div} ${s.div3}`}>
-                  <div className={`${s.div} ${s.div4}`}>
+            <div
+              className={s.div}
+              style={{
+                transform: `translate${transformVector}(${transDistance(
+                  content.length - 1,
+                  el.id
+                )}%)`,
+              }}
+            >
+              <div
+                className={s.div}
+                style={{
+                  transform: `translate${transformVector}(-${transDistance(
+                    content.length - 1,
+                    el.id
+                  )}%)`,
+                }}
+              >
+                <div
+                  className={s.div}
+                  style={{
+                    transform: `translate${transformVector}(-${transDistance(
+                      content.length - 1,
+                      el.id
+                    )}%)`,
+                  }}
+                >
+                  <div
+                    className={s.div}
+                    style={{
+                      transform: `translate${transformVector}(${transDistance(
+                        content.length - 1,
+                        el.id
+                      )}%)`,
+                    }}
+                  >
                     <Picture
                       src={el.mainImg.desktop}
                       srcSet={el.mainImg}
