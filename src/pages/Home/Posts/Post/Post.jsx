@@ -11,7 +11,12 @@ import styles from './Post.scss';
 const Post = ({ element, updateHidden, getIdInView, i }) => {
   const hiddenAnchor = useCallback(
     (id, inView) => {
-      updateHidden(inView);
+      const y = window.scrollY;
+      if (y < 200) {
+        updateHidden(true);
+      } else {
+        updateHidden(inView);
+      }
       getIdInView(id);
     },
     [updateHidden, getIdInView]

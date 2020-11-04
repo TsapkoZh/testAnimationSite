@@ -1,54 +1,74 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+
+import { gsap } from 'gsap';
 
 import classnames from 'classnames';
 import styles from './Cursor.scss';
 
-import CursorContext from 'components/ContextWrapper/CursorContext';
+import { CursorContext } from 'components/Cursor/ContextWrapper';
 
 const Cursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [hidden, setHidden] = useState(true);
   const { isHover } = useContext(CursorContext);
-
-  const onMouseLeave = () => {
-    setHidden(false);
-  };
-
-  const onMouseMove = e => {
-    setPosition({ x: e.clientX, y: e.clientY });
-    setHidden(true);
-  };
-
-  const addEventListeners = useCallback(() => {
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
-  }, []);
-
-  const removeEventListeners = useCallback(() => {
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseleave', onMouseLeave);
-  }, []);
+  const ball = useRef(null);
+  const dot = useRef(null);
 
   useEffect(() => {
-    addEventListeners();
-    return () => removeEventListeners();
-  }, [addEventListeners, removeEventListeners]);
+    gsap.set(ball.current, { xPercent: -50, yPercent: -50 });
+    gsap.set(dot.current, { xPercent: -50, yPercent: -50 });
+
+    const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const mouse = { x: pos.x, y: pos.y };
+    const speed = 0.09;
+
+    const xSetBall = gsap.quickSetter(ball.current, 'x', 'px');
+    const ySetBall = gsap.quickSetter(ball.current, 'y', 'px');
+    const xSetDot = gsap.quickSetter(dot.current, 'x', 'px');
+    const ySetDot = gsap.quickSetter(dot.current, 'y', 'px');
+
+    const onMouseMove = e => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+      setHidden(true);
+    };
+    const onMouseLeave = () => {
+      setHidden(false);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    gsap.ticker.add(() => {
+      pos.x += (mouse.x - pos.x) * speed;
+      pos.y += (mouse.y - pos.y) * speed;
+      xSetBall(pos.x);
+      ySetBall(pos.y);
+      xSetDot(mouse.x);
+      ySetDot(mouse.y);
+    });
+  }, []);
 
   return (
-    <div
-      className={classnames(styles.cursorWrapper, {
-        [styles.cursorHidden]: hidden === false,
-      })}
-      style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-      }}
-    >
+    <>
       <div
-        className={classnames(styles.cursor, {
-          [styles.cursorEnter]: isHover,
+        className={classnames(styles.cursorDot, {
+          [styles.cursorHidden]: hidden === false,
         })}
+        ref={dot}
       />
-    </div>
+      <div
+        className={classnames(styles.cursorWrapper, {
+          [styles.cursorHidden]: hidden === false,
+        })}
+        ref={ball}
+      >
+        <div
+          className={classnames(styles.cursorBall, {
+            [styles.cursorEnter]: isHover,
+          })}
+        />
+      </div>
+    </>
   );
 };
 

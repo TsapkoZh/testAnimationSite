@@ -1,35 +1,42 @@
 @import '~styles/media';
 @import '~styles/variables';
 
-a {
-  cursor: none;
-}
-
 .cursorWrapper {
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 50ms ease;
-  z-index: 9999;
+  transition: opacity 0.5s;
+  z-index: 500;
 }
 
-.cursor {
-  width: 20px;
-  height: 20px;
+.cursorDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  position: fixed;
+  background-color: rgb(158, 20, 20);
+  z-index: 600;
+}
+
+.cursorBall {
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   pointer-events: none;
-  border: 1px solid $color-horizon;
   position: fixed;
-  transform: scale(1.6);
+  transform: scale(1.9);
   transition: 0.5s;
+  background-color: $color-leather;
+  opacity: 0.2;
 }
 
 .cursorEnter {
   transform: scale(1);
+  opacity: 0.4;
 }
 
 .cursorHidden {
-  transition: 0.1s;
   opacity: 0;
 }

@@ -9,7 +9,7 @@ import useBrowser from 'hooks/useBrowser';
 import 'styles/normalize.scss';
 import styles from './App.scss';
 
-import ContextWrapper from 'components/ContextWrapper';
+import ContextWrapper from 'components/Cursor/ContextWrapper';
 
 const App = ({ routes }) => {
   const browser = useBrowser();
