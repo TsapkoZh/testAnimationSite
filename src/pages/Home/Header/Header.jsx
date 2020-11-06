@@ -43,8 +43,6 @@ const Header = ({ content, idInView }) => {
     transformVector = 'X';
   }
 
-  console.log(isMobile, 'isMobile');
-
   const toggleClass = useCallback(
     id => {
       if (currentItem) {
@@ -101,16 +99,9 @@ const Header = ({ content, idInView }) => {
 
   return (
     <Fragment>
-      <button className={s.btnReturn} onClick={backToHeader}>
-        <Btn>
-          <img
-            className={s.imgBack}
-            src={back}
-            alt="back"
-            role="presentation"
-          />
-        </Btn>
-      </button>
+      <Btn onClick={backToHeader} className={s.btnReturn}>
+        <img className={s.imgBack} src={back} alt="back" role="presentation" />
+      </Btn>
       <div
         className={classnames(s.header, {
           [s.isVisibility]: visibilityHeader,
@@ -143,7 +134,6 @@ const Header = ({ content, idInView }) => {
                 el.id
               )}%)`,
             }}
-            gh={console.log(transDistance(content.length - 1, el.id))}
           >
             <div
               className={s.div}

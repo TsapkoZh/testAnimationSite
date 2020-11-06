@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import CursorContext from 'components/ContextWrapper/CursorContext';
+import { CursorContext } from 'components/Cursor/ContextWrapper';
 
 class Btn extends PureComponent {
   handleClick = () => {

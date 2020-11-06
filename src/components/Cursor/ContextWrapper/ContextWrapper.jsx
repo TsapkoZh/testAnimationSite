@@ -22,7 +22,7 @@ const ContextWrapper = ({ children }) => {
 };
 
 ContextWrapper.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
 };
 
 ContextWrapper.defaultProps = {
