@@ -19,7 +19,7 @@ const Cursor = () => {
 
     const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const mouse = { x: pos.x, y: pos.y };
-    const speed = 0.09;
+    const speed = 0.12;
 
     const xSetBall = gsap.quickSetter(ball.current, 'x', 'px');
     const ySetBall = gsap.quickSetter(ball.current, 'y', 'px');
