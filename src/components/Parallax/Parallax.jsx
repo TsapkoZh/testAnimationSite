@@ -10,10 +10,10 @@ const Parallax = ({ className, children }) => (
         <Tween
           position="0"
           from={{
-            top: '-45%',
+            y: '-45%',
           }}
           to={{
-            top: '10%',
+            y: '10%',
           }}
         >
           {children}
