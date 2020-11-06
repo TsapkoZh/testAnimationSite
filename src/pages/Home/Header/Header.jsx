@@ -19,6 +19,7 @@ const Header = ({ content, idInView }) => {
   const [currentItemZindex, setCurrentitemZindex] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
   const [isMobile, setMobile] = useState(false);
+  const [isEnableBtn, setEnableBtn] = useState(true);
 
   const {
     platform: { type },
@@ -45,9 +46,14 @@ const Header = ({ content, idInView }) => {
 
   const toggleClass = useCallback(
     id => {
-      if (currentItem) {
+      if (!isEnableBtn) {
         return;
       }
+
+      setEnableBtn(false);
+      disableScroll();
+      setCurrentitem(id);
+      setCurrentitemZindex(id);
 
       TweenMax.to(window, {
         duration: 1,
@@ -58,17 +64,19 @@ const Header = ({ content, idInView }) => {
         onComplete: () => {
           enableScroll();
           setVisibilityHeader(true);
+          setEnableBtn(true);
         },
       });
-
-      disableScroll();
-      setCurrentitem(id);
-      setCurrentitemZindex(id);
     },
-    [content, currentItem]
+    [content, isEnableBtn]
   );
 
   const backToHeader = useCallback(() => {
+    setCurrentitemZindex(idInView);
+    setCurrentitem(idInView);
+    disableScroll();
+    setEnableBtn(false);
+
     TweenMax.to(window, {
       duration: 1,
       scrollTo: {
@@ -82,12 +90,9 @@ const Header = ({ content, idInView }) => {
           setCurrentitemZindex(false);
         }, 1000);
         enableScroll();
+        setEnableBtn(true);
       },
     });
-
-    setCurrentitemZindex(idInView);
-    setCurrentitem(idInView);
-    disableScroll();
   }, [idInView, content]);
 
   const transDistance = (i, id) => {
