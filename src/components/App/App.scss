@@ -9,6 +9,11 @@ body {
   cursor: none;
 }
 
+body.resizeAnimationStopper * {
+  transition: none !important;
+  animation: none !important;
+}
+
 .app {
   color: $color-white;
 

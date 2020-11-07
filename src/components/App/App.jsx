@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 /* import { Helmet } from 'react-helmet'; */
 
@@ -17,6 +17,17 @@ const App = ({ routes }) => {
   if (RUNTIME_ENV === 'client') {
     console.info('browser', browser);
   }
+
+  useEffect(() => {
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      document.body.classList.add(styles.resizeAnimationStopper);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        document.body.classList.remove(styles.resizeAnimationStopper);
+      }, 400);
+    });
+  });
 
   return (
     <div className={styles.app}>

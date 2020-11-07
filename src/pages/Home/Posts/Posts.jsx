@@ -21,6 +21,7 @@ const Posts = ({ content, elementIdInView }) => {
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
   const [updateHidden, setUpdateHidden] = useState(true);
   const [isEnable, setIsEnamble] = useState(true);
+
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
       setActivItem(position);
