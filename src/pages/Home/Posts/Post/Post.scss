@@ -9,19 +9,6 @@
   color: $color-black;
 }
 
-.hlp {
-  position: absolute;
-  top: 10vh;
-  height: 110vh;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.hlpFirst {
-  height: 70vh;
-}
-
 .headerImgWrapper {
   position: sticky;
   overflow: hidden;
@@ -45,7 +32,6 @@
   top: 0;
   padding: 3vh 0;
   z-index: 10;
-  background-color: $color-white;
   background-color: rgb(231, 231, 231);
   box-shadow: 0 0 12px 5px rgba(121, 121, 121, 0.315);
 }
