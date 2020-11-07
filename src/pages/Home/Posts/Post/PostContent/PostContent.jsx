@@ -20,7 +20,7 @@ const PostContent = ({ element }) => (
           [styles.postContentReverse]: even(i) === false,
         })}
       >
-        <Parallax className={styles.imgParallax}>
+        <Parallax id={el.id} className={styles.imgParallax}>
           <div className={styles.imgWrapper} id={el.id}>
             <Picture
               src={el.contentImg.desktop}
