@@ -7,7 +7,8 @@ const Opacity = ({ children, id, className, trigger }) => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: `#${trigger}${id}`,
-        scrub: true,
+        scrub: 0.6,
+        delay: 0.2,
         end: 'top -5%',
       },
     });
