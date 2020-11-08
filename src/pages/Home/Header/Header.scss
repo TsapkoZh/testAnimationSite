@@ -52,6 +52,11 @@
   width: 100%;
   height: 100vh;
   object-fit: cover;
+  transition: filter 0.7s;
+}
+
+.postHover {
+  filter: brightness(1.4);
 }
 
 .isVisibility {

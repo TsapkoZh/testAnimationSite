@@ -20,6 +20,8 @@ const Header = ({ content, idInView }) => {
   const [visibilityHeader, setVisibilityHeader] = useState(false);
   const [isMobile, setMobile] = useState(false);
   const [isEnableBtn, setEnableBtn] = useState(true);
+  const [onEnter, setEnter] = useState('');
+  console.log(onEnter, 'onEnter');
 
   const {
     platform: { type },
@@ -102,6 +104,10 @@ const Header = ({ content, idInView }) => {
     return (100 / content.length) * i - (100 - 100 / content.length) / 2;
   };
 
+  const handleMouseEnter = event => {
+    setEnter(`img${JSON.parse(event.target.dataset.info)}`);
+  };
+
   return (
     <Fragment>
       <Btn onClick={backToHeader} className={s.btnReturn}>
@@ -119,10 +125,14 @@ const Header = ({ content, idInView }) => {
               cbData={element.id}
               onClick={toggleClass}
               id={`#${element.id}`}
-              className={classnames(s.btn, {
-                [s.btnHover]: !currentItem,
-              })}
-            />
+              className={s.btn}
+            >
+              <div
+                onMouseEnter={handleMouseEnter}
+                data-info={JSON.stringify(element.id)}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </Btn>
           ))}
         </div>
         {content.map((el, i) => (
@@ -177,7 +187,10 @@ const Header = ({ content, idInView }) => {
                     <Picture
                       src={el.mainImg.desktop}
                       srcSet={el.mainImg}
-                      className={s.post}
+                      className={classnames(s.post, {
+                        [s.postHover]:
+                          `img${el.id}` === onEnter && !currentItem,
+                      })}
                     />
                   </div>
                 </div>
