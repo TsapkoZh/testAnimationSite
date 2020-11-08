@@ -63,17 +63,8 @@
   }
 }
 
-.active {
-  transform: translate3d(0, 0, 0);
-}
-
 .activeZindex {
   z-index: 10;
-}
-
-.active div {
-  transition: 1s;
-  transform: translate3d(0, 0, 0);
 }
 
 .btnReturn {

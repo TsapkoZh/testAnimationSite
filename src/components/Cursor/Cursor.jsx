@@ -52,13 +52,13 @@ const Cursor = () => {
     <>
       <div
         className={classnames(styles.cursorDot, {
-          [styles.cursorHidden]: hidden === false,
+          [styles.cursorHidden]: !hidden,
         })}
         ref={dot}
       />
       <div
         className={classnames(styles.cursorWrapper, {
-          [styles.cursorHidden]: hidden === false,
+          [styles.cursorHidden]: !hidden,
         })}
         ref={ball}
       >

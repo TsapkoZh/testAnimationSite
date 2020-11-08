@@ -129,9 +129,7 @@ const Header = ({ content, idInView }) => {
           <div
             key={el.id}
             className={classnames(s.imgWrapper, {
-              [s.active]: el.id === currentItem && currentItem,
-              [s.activeZindex]:
-                el.id === currentItemZindex && currentItemZindex,
+              [s.activeZindex]: el.id === currentItemZindex,
             })}
             style={{
               transform: `translate${transformVector}(${transDistance(
@@ -179,9 +177,7 @@ const Header = ({ content, idInView }) => {
                     <Picture
                       src={el.mainImg.desktop}
                       srcSet={el.mainImg}
-                      className={classnames(s.post, {
-                        [s.active]: el.id === currentItem && currentItem,
-                      })}
+                      className={s.post}
                     />
                   </div>
                 </div>
