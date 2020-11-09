@@ -2,21 +2,18 @@ import React, { useCallback } from 'react';
 import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
 
+import Opacity from 'components/Opacity';
+
 import PostContent from './PostContent';
 import InViewComp from 'components/InViewComp';
 import Picture from 'components/Picture';
 
 import styles from './Post.scss';
 
-const Post = ({ element, updateHidden, getIdInView, i }) => {
+const Post = ({ element, updateHidden, getIdInView, isEnable, i }) => {
   const hiddenAnchor = useCallback(
     (id, inView) => {
-      const y = window.scrollY;
-      if (y < 200) {
-        updateHidden(true);
-      } else {
-        updateHidden(inView);
-      }
+      updateHidden(inView);
       getIdInView(id);
     },
     [updateHidden, getIdInView]
@@ -24,35 +21,44 @@ const Post = ({ element, updateHidden, getIdInView, i }) => {
 
   return (
     <div className={styles.postWrapper}>
+      {i === 0 || !isEnable ? (
+        <div
+          id={element.id}
+          className={classnames(styles.headerImgWrapper, {
+            [styles.firstHeaderImgWrapper]: i === 0,
+          })}
+        >
+          <Picture
+            src={element.mainImg.desktop}
+            srcSet={element.mainImg}
+            className={styles.headerImg}
+          />
+        </div>
+      ) : (
+        <Opacity id={element.id} className={styles.headerImgWrapper}>
+          <Picture
+            src={element.mainImg.desktop}
+            srcSet={element.mainImg}
+            className={styles.headerImg}
+          />
+        </Opacity>
+      )}
+
       <InViewComp
-        as="div"
         onChange={hiddenAnchor}
         key={element.id}
         cbData={element.id}
-        threshold={[0.05, 0.2]}
-        className={classnames(styles.hlp, {
-          [styles.hlpFirst]: i === 0,
-        })}
-      />
-      <div
-        className={classnames(styles.headerImgWrapper, {
-          [styles.firstHeaderImgWrapper]: i === 0,
-        })}
+        threshold={[0.3, 0.4]}
       >
-        <Picture
-          src={element.mainImg.desktop}
-          srcSet={element.mainImg}
-          className={styles.headerImg}
-        />
-      </div>
-      <div className={styles.headerPost}>
-        <h2 className={styles.headerPostTitle}>{element.title}</h2>
-        <p className={styles.headerPostText}>{element.textTitle}</p>
-      </div>
+        <div className={styles.headerPost}>
+          <h2 className={styles.headerPostTitle}>{element.title}</h2>
+          <p className={styles.headerPostText}>{element.textTitle}</p>
+        </div>
 
-      <div className={styles.postContentWrap}>
-        <PostContent element={element.postContent} />
-      </div>
+        <div className={styles.postContentWrap}>
+          <PostContent element={element.postContent} />
+        </div>
+      </InViewComp>
     </div>
   );
 };
@@ -60,6 +66,7 @@ const Post = ({ element, updateHidden, getIdInView, i }) => {
 Post.propTypes = {
   updateHidden: PropTypes.func,
   getIdInView: PropTypes.func,
+  isEnable: PropTypes.bool,
   i: PropTypes.number,
 
   element: PropTypes.shape({
@@ -92,6 +99,7 @@ Post.propTypes = {
 Post.defaultProps = {
   updateHidden: null,
   getIdInView: null,
+  isEnable: true,
   i: null,
 
   element: PropTypes.shape({

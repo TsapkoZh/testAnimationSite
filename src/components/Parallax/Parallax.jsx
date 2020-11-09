@@ -1,36 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Controller, Scene } from 'react-scrollmagic';
-import { Tween, Timeline } from 'react-gsap';
+import { gsap } from 'gsap';
 
-const Parallax = ({ className, children }) => (
-  <Controller>
-    <Scene duration="200%" triggerHook="onEnter">
-      <Timeline wrapper={<div className={className} />}>
-        <Tween
-          position="0"
-          from={{
-            top: '-45%',
-          }}
-          to={{
-            top: '10%',
-          }}
-        >
-          {children}
-        </Tween>
-      </Timeline>
-    </Scene>
-  </Controller>
-);
+const Parallax = ({ children, id, className, trigger }) => {
+  useEffect(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: `#${trigger}${id}`,
+        delay: 0.2,
+        scrub: 1,
+      },
+    });
+    tl.from(`#parallax${id}`, { y: '-60%' });
+  }, [id, trigger]);
+
+  return (
+    <div className={className} id={`parallax${id}`}>
+      {children}
+    </div>
+  );
+};
 
 Parallax.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  id: PropTypes.string,
+  trigger: PropTypes.string,
 };
 
 Parallax.defaultProps = {
   className: null,
   children: null,
+  id: null,
+  trigger: '',
 };
 
 export default React.memo(Parallax);

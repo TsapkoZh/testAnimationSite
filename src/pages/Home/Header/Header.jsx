@@ -19,6 +19,9 @@ const Header = ({ content, idInView }) => {
   const [currentItemZindex, setCurrentitemZindex] = useState(false);
   const [visibilityHeader, setVisibilityHeader] = useState(false);
   const [isMobile, setMobile] = useState(false);
+  const [isEnableBtn, setEnableBtn] = useState(true);
+  const [onEnter, setEnter] = useState('');
+  console.log(onEnter, 'onEnter');
 
   const {
     platform: { type },
@@ -45,9 +48,14 @@ const Header = ({ content, idInView }) => {
 
   const toggleClass = useCallback(
     id => {
-      if (currentItem) {
+      if (!isEnableBtn) {
         return;
       }
+
+      setEnableBtn(false);
+      disableScroll();
+      setCurrentitem(id);
+      setCurrentitemZindex(id);
 
       TweenMax.to(window, {
         duration: 1,
@@ -58,17 +66,19 @@ const Header = ({ content, idInView }) => {
         onComplete: () => {
           enableScroll();
           setVisibilityHeader(true);
+          setEnableBtn(true);
         },
       });
-
-      disableScroll();
-      setCurrentitem(id);
-      setCurrentitemZindex(id);
     },
-    [content, currentItem]
+    [content, isEnableBtn]
   );
 
   const backToHeader = useCallback(() => {
+    setCurrentitemZindex(idInView);
+    setCurrentitem(idInView);
+    disableScroll();
+    setEnableBtn(false);
+
     TweenMax.to(window, {
       duration: 1,
       scrollTo: {
@@ -82,12 +92,9 @@ const Header = ({ content, idInView }) => {
           setCurrentitemZindex(false);
         }, 1000);
         enableScroll();
+        setEnableBtn(true);
       },
     });
-
-    setCurrentitemZindex(idInView);
-    setCurrentitem(idInView);
-    disableScroll();
   }, [idInView, content]);
 
   const transDistance = (i, id) => {
@@ -95,6 +102,10 @@ const Header = ({ content, idInView }) => {
       return 0;
     }
     return (100 / content.length) * i - (100 - 100 / content.length) / 2;
+  };
+
+  const handleMouseEnter = event => {
+    setEnter(`img${JSON.parse(event.target.dataset.info)}`);
   };
 
   return (
@@ -114,19 +125,21 @@ const Header = ({ content, idInView }) => {
               cbData={element.id}
               onClick={toggleClass}
               id={`#${element.id}`}
-              className={classnames(s.btn, {
-                [s.btnHover]: !currentItem,
-              })}
-            />
+              className={s.btn}
+            >
+              <div
+                onMouseEnter={handleMouseEnter}
+                data-info={JSON.stringify(element.id)}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </Btn>
           ))}
         </div>
         {content.map((el, i) => (
           <div
             key={el.id}
             className={classnames(s.imgWrapper, {
-              [s.active]: el.id === currentItem && currentItem,
-              [s.activeZindex]:
-                el.id === currentItemZindex && currentItemZindex,
+              [s.activeZindex]: el.id === currentItemZindex,
             })}
             style={{
               transform: `translate${transformVector}(${transDistance(
@@ -175,7 +188,8 @@ const Header = ({ content, idInView }) => {
                       src={el.mainImg.desktop}
                       srcSet={el.mainImg}
                       className={classnames(s.post, {
-                        [s.active]: el.id === currentItem && currentItem,
+                        [s.postHover]:
+                          `img${el.id}` === onEnter && !currentItem,
                       })}
                     />
                   </div>

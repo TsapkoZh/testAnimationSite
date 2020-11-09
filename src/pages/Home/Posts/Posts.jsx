@@ -6,7 +6,6 @@ import { TweenMax } from 'gsap';
 
 import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
-import Opacity from 'components/Opacity';
 import ProgressLine from 'components/ProgressLine';
 import Post from './Post';
 
@@ -22,6 +21,7 @@ const Posts = ({ content, elementIdInView }) => {
   const [eventPointerDisable, setEventPointerDisable] = useState(false);
   const [updateHidden, setUpdateHidden] = useState(true);
   const [isEnable, setIsEnamble] = useState(true);
+
   const handleChangItem = useCallback((position, inView) => {
     if (inView) {
       setActivItem(position);
@@ -54,6 +54,7 @@ const Posts = ({ content, elementIdInView }) => {
       setContentWithOrder(newContent);
       setEventPointerDisable(true);
       disableScroll();
+      setIsEnamble(false);
 
       TweenMax.to(window, {
         duration: 0.9,
@@ -62,7 +63,6 @@ const Posts = ({ content, elementIdInView }) => {
           offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
         },
         onComplete: () => {
-          setIsEnamble(false);
           setContentWithOrder(proxyElements);
           setEventPointerDisable(false);
 
@@ -100,7 +100,7 @@ const Posts = ({ content, elementIdInView }) => {
       <div
         className={classnames(s.wrapBtn, {
           [s.isDisable]: eventPointerDisable,
-          [s.isOpacity]: updateHidden,
+          [s.isOpacity]: !updateHidden,
         })}
       >
         <ProgressLine />
@@ -128,25 +128,13 @@ const Posts = ({ content, elementIdInView }) => {
               style={{ order: element.order }}
               key={element.id}
             >
-              {i === 0 ? (
-                <Post
-                  updateHidden={handleUpdateHidden}
-                  getIdInView={getIdInView}
-                  element={element}
-                  i={i}
-                />
-              ) : (
-                <Opacity isEnable={isEnable} duration="130%">
-                  <div>
-                    <Post
-                      updateHidden={handleUpdateHidden}
-                      getIdInView={getIdInView}
-                      element={element}
-                      i={i}
-                    />
-                  </div>
-                </Opacity>
-              )}
+              <Post
+                updateHidden={handleUpdateHidden}
+                getIdInView={getIdInView}
+                element={element}
+                isEnable={isEnable}
+                i={i}
+              />
             </InViewComp>
           ))}
         </div>

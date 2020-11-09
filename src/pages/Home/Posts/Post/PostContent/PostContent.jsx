@@ -1,38 +1,38 @@
 import React, { Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 
-import classnames from 'classnames';
-
 import Parallax from 'components/Parallax';
 import Picture from 'components/Picture';
 import Opacity from 'components/Opacity';
 
 import styles from './PostContent.scss';
+import classnames from 'classnames';
 import { even } from 'utils/even';
 
 const PostContent = ({ element }) => (
   <Fragment>
     {element.map((el, i) => (
-      <Opacity duration="70%" key={el.id}>
-        <div
-          className={classnames(styles.postContent, {
-            [styles.postContentReverse]: even(i) === false,
-          })}
-        >
-          <Parallax className={styles.imgParallax}>
-            <div className={styles.imgWrapper}>
-              <Picture
-                src={el.contentImg.desktop}
-                srcSet={el.contentImg}
-                className={styles.contentImg}
-              />
-            </div>
-          </Parallax>
-
-          <div className={styles.textWrapper}>
-            <h3 className={styles.postTitle}>{el.title}</h3>
-            <p className={styles.postText}>{el.text}</p>
+      <Opacity
+        id={el.id}
+        key={el.id}
+        trigger="opacityEl"
+        className={classnames(styles.postContent, {
+          [styles.postContentReverse]: even(i) === false,
+        })}
+      >
+        <Parallax id={el.id} className={styles.imgParallax}>
+          <div className={styles.imgWrapper} id={el.id}>
+            <Picture
+              src={el.contentImg.desktop}
+              srcSet={el.contentImg}
+              className={styles.contentImg}
+            />
           </div>
+        </Parallax>
+
+        <div className={styles.textWrapper}>
+          <h3 className={styles.postTitle}>{el.title}</h3>
+          <p className={styles.postText}>{el.text}</p>
         </div>
       </Opacity>
     ))}

@@ -22,7 +22,7 @@ class InViewComp extends PureComponent {
 
 InViewComp.propTypes = {
   cbData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onChange: PropTypes.func,
 };
 

@@ -35,8 +35,8 @@
   width: 20vw;
 
   .imgWrapper {
-    position: absolute;
     width: 100%;
+    top: -10%;
     height: 35vw;
     overflow: hidden;
     background-position: center;
@@ -48,9 +48,9 @@
     }
 
     @include _media-max1024 {
-      position: unset;
-      box-shadow: none;
+      position: absolute;
       width: 100%;
+      box-shadow: none;
     }
   }
 
@@ -62,7 +62,6 @@
 
   @include _media-max1024 {
     width: 80%;
-    margin: 0 auto;
   }
 }
 
@@ -82,7 +81,7 @@
     text-align: center;
     font-weight: 400;
     font-size: 4vw;
-    margin: 25px 0;
+    margin-top: 30vh;
   }
 }
 
