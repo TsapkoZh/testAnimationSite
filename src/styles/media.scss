@@ -9,3 +9,9 @@
     @content;
   }
 }
+
+@mixin _media-max880 {
+  @media (max-width: 880px) {
+    @content;
+  }
+}
