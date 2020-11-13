@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { gsap } from 'gsap';
 
 const Parallax = ({ children, id, className, trigger }) => {
+  const parallaxRef = useRef();
+
   useEffect(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: `#${trigger}${id}`,
         delay: 0.2,
-        scrub: 1,
+        scrub: 0.1,
       },
     });
-    tl.from(`#parallax${id}`, { y: '-60%' });
-  }, [id, trigger]);
+    tl.from(parallaxRef.current, { y: '-60%' });
+  }, [id, trigger, parallaxRef]);
 
   return (
-    <div className={className} id={`parallax${id}`}>
+    <div className={className} ref={parallaxRef}>
       {children}
     </div>
   );
