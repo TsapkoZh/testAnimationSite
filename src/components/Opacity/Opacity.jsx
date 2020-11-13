@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { gsap } from 'gsap';
 
 const Opacity = ({ children, id, className, trigger }) => {
+  const ref = useRef();
+
   useEffect(() => {
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -11,11 +13,11 @@ const Opacity = ({ children, id, className, trigger }) => {
         end: 'top -5%',
       },
     });
-    tl.from(`#opacityEl${id}`, { opacity: 0.1 });
-  }, [id, trigger]);
+    tl.from(ref.current, { opacity: 0.1 });
+  }, [id, trigger, ref]);
 
   return (
-    <div className={className} id={`opacityEl${id}`}>
+    <div className={className} ref={ref}>
       {children}
     </div>
   );
