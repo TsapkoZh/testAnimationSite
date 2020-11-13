@@ -10,13 +10,12 @@ import Picture from 'components/Picture';
 
 import styles from './Post.scss';
 
-const Post = ({ element, updateHidden, getIdInView, isEnable, i }) => {
+const Post = ({ element, updateHidden, isEnable, i }) => {
   const hiddenAnchor = useCallback(
     (id, inView) => {
       updateHidden(inView);
-      getIdInView(id);
     },
-    [updateHidden, getIdInView]
+    [updateHidden]
   );
 
   return (
@@ -65,7 +64,6 @@ const Post = ({ element, updateHidden, getIdInView, isEnable, i }) => {
 
 Post.propTypes = {
   updateHidden: PropTypes.func,
-  getIdInView: PropTypes.func,
   isEnable: PropTypes.bool,
   i: PropTypes.number,
 
@@ -98,7 +96,6 @@ Post.propTypes = {
 
 Post.defaultProps = {
   updateHidden: null,
-  getIdInView: null,
   isEnable: true,
   i: null,
 

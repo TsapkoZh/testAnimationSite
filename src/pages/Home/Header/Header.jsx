@@ -21,7 +21,6 @@ const Header = ({ content, idInView }) => {
   const [isMobile, setMobile] = useState(false);
   const [isEnableBtn, setEnableBtn] = useState(true);
   const [onEnter, setEnter] = useState('');
-  console.log(onEnter, 'onEnter');
 
   const {
     platform: { type },

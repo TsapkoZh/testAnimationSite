@@ -3,8 +3,8 @@ import { PropTypes } from 'prop-types';
 
 import ResizeObserver from 'rc-resize-observer';
 import { TweenMax } from 'gsap';
+import classnames from 'classnames';
 
-import Btn from 'components/Btn';
 import InViewComp from 'components/InViewComp';
 import ProgressLine from 'components/ProgressLine';
 import Post from './Post';
@@ -12,7 +12,6 @@ import Post from './Post';
 import { disableScroll, enableScroll } from 'utils/eventScroll';
 import { getIndex } from 'utils/getIndex';
 
-import classnames from 'classnames';
 import s from './Posts.scss';
 
 const Posts = ({ content, elementIdInView }) => {
@@ -22,11 +21,15 @@ const Posts = ({ content, elementIdInView }) => {
   const [updateHidden, setUpdateHidden] = useState(true);
   const [isEnable, setIsEnamble] = useState(true);
 
-  const handleChangItem = useCallback((position, inView) => {
-    if (inView) {
-      setActivItem(position);
-    }
-  }, []);
+  const handleChangItem = useCallback(
+    (position, inView) => {
+      if (inView) {
+        setActivItem(getIndex(position, content));
+        elementIdInView(position);
+      }
+    },
+    [content, elementIdInView]
+  );
 
   const handleUpdateHidden = useCallback(value => {
     setUpdateHidden(value);
@@ -60,7 +63,7 @@ const Posts = ({ content, elementIdInView }) => {
         duration: 0.9,
         scrollTo: {
           y: `#${anchor}`,
-          offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
+          offsetY: `${getIndex(anchor, content) === 0 ? 0 : -150}`,
         },
         onComplete: () => {
           setContentWithOrder(proxyElements);
@@ -69,7 +72,7 @@ const Posts = ({ content, elementIdInView }) => {
           TweenMax.set(window, {
             scrollTo: {
               y: `#${anchor}`,
-              offsetY: `${getIndex(anchor, content) === 0 ? 0 : -350}`,
+              offsetY: `${getIndex(anchor, content) === 0 ? 0 : -150}`,
             },
             onComplete: () => {
               setTimeout(() => {
@@ -103,19 +106,16 @@ const Posts = ({ content, elementIdInView }) => {
           [s.isOpacity]: !updateHidden,
         })}
       >
-        <ProgressLine />
-        {contentWithOrder.map((element, index) => (
-          <div className={s.wrapAnchor} key={element.id}>
-            <Btn
-              className={classnames(s.anchor, {
-                [s.isCurrent]: activItem === index,
-              })}
-              cbData={element.id}
-              onClick={scrollToAnchor}
-            />
-          </div>
-        ))}
+        <ProgressLine
+          arr={contentWithOrder.map(el => {
+            return el.id;
+          })}
+          className={s.wrapAnchor}
+          onClick={scrollToAnchor}
+          activItem={activItem}
+        />
       </div>
+
       <ResizeObserver onResize={handleResize}>
         <div className={s.postsWrapper}>
           {contentWithOrder.map((element, i) => (
@@ -123,7 +123,7 @@ const Posts = ({ content, elementIdInView }) => {
               as="div"
               onChange={handleChangItem}
               id={element.id}
-              cbData={i}
+              cbData={element.id}
               threshold={[0.1, 0.2]}
               style={{ order: element.order }}
               key={element.id}
@@ -142,6 +142,7 @@ const Posts = ({ content, elementIdInView }) => {
     </Fragment>
   );
 };
+
 Posts.propTypes = {
   elementIdInView: PropTypes.func,
   content: PropTypes.arrayOf(
@@ -171,6 +172,7 @@ Posts.propTypes = {
     })
   ),
 };
+
 Posts.defaultProps = {
   elementIdInView: null,
   content: PropTypes.arrayOf(
@@ -200,4 +202,5 @@ Posts.defaultProps = {
     })
   ),
 };
+
 export default React.memo(Posts);
