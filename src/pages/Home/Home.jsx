@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useAction from 'hooks/useAction';
 import { actions } from 'models/data/slice';
-// import { postsSelector } from 'models/data/selectors';
+import { postsSelector } from 'models/data/selectors';
 
 import Header from './Header';
 import Posts from './Posts';
@@ -15,9 +15,7 @@ const Home = () => {
     onFetchData();
   }, [onFetchData]);
 
-  const content = useSelector(state => state.data.posts);
-
-  // const content = useSelector(postsSelector);
+  const content = useSelector(postsSelector);
 
   const cbId = useCallback(elementIdInView => {
     setIdInView(elementIdInView);
