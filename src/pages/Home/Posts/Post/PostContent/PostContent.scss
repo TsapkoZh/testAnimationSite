@@ -81,7 +81,11 @@
     text-align: center;
     font-weight: 400;
     font-size: 4vw;
-    margin-top: 30vh;
+    margin-top: 45vh;
+  }
+
+  @include _media-max880 {
+    margin-top: 23vh;
   }
 }
 
@@ -95,5 +99,6 @@
     width: 60vw;
     font-size: 2vw;
     margin: 0 auto;
+    line-height: 2vh;
   }
 }

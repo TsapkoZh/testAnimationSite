@@ -20,8 +20,6 @@ const Header = ({ content, idInView }) => {
   const [visibilityHeader, setVisibilityHeader] = useState(false);
   const [isMobile, setMobile] = useState(false);
   const [isEnableBtn, setEnableBtn] = useState(true);
-  const [onEnter, setEnter] = useState('');
-  console.log(onEnter, 'onEnter');
 
   const {
     platform: { type },
@@ -61,7 +59,7 @@ const Header = ({ content, idInView }) => {
         duration: 1,
         scrollTo: {
           y: `#${id}`,
-          offsetY: `${getIndex(id, content) === 0 ? 0 : -350}`,
+          offsetY: `${getIndex(id, content) === 0 ? 0 : -150}`,
         },
         onComplete: () => {
           enableScroll();
@@ -83,16 +81,17 @@ const Header = ({ content, idInView }) => {
       duration: 1,
       scrollTo: {
         y: `#${idInView}`,
-        offsetY: `${getIndex(idInView, content) === 0 ? 0 : -350}`,
+        offsetY: `${getIndex(idInView, content) === 0 ? 0 : -150}`,
       },
+
       onComplete: () => {
         setCurrentitem(false);
         setVisibilityHeader(false);
         setTimeout(() => {
+          setEnableBtn(true);
           setCurrentitemZindex(false);
+          enableScroll();
         }, 1000);
-        enableScroll();
-        setEnableBtn(true);
       },
     });
   }, [idInView, content]);
@@ -104,8 +103,11 @@ const Header = ({ content, idInView }) => {
     return (100 / content.length) * i - (100 - 100 / content.length) / 2;
   };
 
-  const handleMouseEnter = event => {
-    setEnter(`img${JSON.parse(event.target.dataset.info)}`);
+  const getTransform = (i, diraction, id) => {
+    const dist = transDistance(i, id);
+    return {
+      transform: `translate${transformVector}(${diraction * dist}%)`,
+    };
   };
 
   return (
@@ -118,86 +120,44 @@ const Header = ({ content, idInView }) => {
           [s.isVisibility]: visibilityHeader,
         })}
       >
-        <div className={s.wrapperBtn}>
-          {content.map(element => (
-            <Btn
-              key={element.id}
-              cbData={element.id}
-              onClick={toggleClass}
-              id={`#${element.id}`}
-              className={s.btn}
-            >
-              <div
-                onMouseEnter={handleMouseEnter}
-                data-info={JSON.stringify(element.id)}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </Btn>
-          ))}
-        </div>
-        {content.map((el, i) => (
-          <div
-            key={el.id}
-            className={classnames(s.imgWrapper, {
-              [s.activeZindex]: el.id === currentItemZindex,
-            })}
-            style={{
-              transform: `translate${transformVector}(${transDistance(
-                i,
-                el.id
-              )}%)`,
-            }}
-          >
+        {content.map((el, i) => {
+          const maxIndex = content.length - 1;
+          const transform = getTransform(maxIndex, 1, el.id);
+          const compensationTransform = getTransform(maxIndex, -1, el.id);
+
+          return (
             <div
-              className={s.div}
-              style={{
-                transform: `translate${transformVector}(${transDistance(
-                  content.length - 1,
-                  el.id
-                )}%)`,
-              }}
+              key={el.id}
+              className={classnames(s.imgWrapper, {
+                [s.activeZindex]: el.id === currentItemZindex,
+              })}
+              style={getTransform(i, 1, el.id)}
             >
-              <div
-                className={s.div}
-                style={{
-                  transform: `translate${transformVector}(-${transDistance(
-                    content.length - 1,
-                    el.id
-                  )}%)`,
-                }}
-              >
-                <div
-                  className={s.div}
-                  style={{
-                    transform: `translate${transformVector}(-${transDistance(
-                      content.length - 1,
-                      el.id
-                    )}%)`,
-                  }}
-                >
-                  <div
-                    className={s.div}
-                    style={{
-                      transform: `translate${transformVector}(${transDistance(
-                        content.length - 1,
-                        el.id
-                      )}%)`,
-                    }}
-                  >
-                    <Picture
-                      src={el.mainImg.desktop}
-                      srcSet={el.mainImg}
-                      className={classnames(s.post, {
-                        [s.postHover]:
-                          `img${el.id}` === onEnter && !currentItem,
-                      })}
-                    />
+              <div className={s.div} style={transform}>
+                <div className={s.div} style={compensationTransform}>
+                  <div className={s.div} style={compensationTransform}>
+                    <div className={s.div} style={transform}>
+                      <Btn
+                        cbData={el.id}
+                        onClick={toggleClass}
+                        id={`${el.id}`}
+                        className={s.btn}
+                      >
+                        <Picture
+                          src={el.mainImg.desktop}
+                          srcSet={el.mainImg}
+                          className={classnames(s.post, {
+                            [s.postHover]: el.id !== currentItem,
+                          })}
+                        />
+                      </Btn>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </Fragment>
   );

@@ -15,7 +15,6 @@ const PostContent = ({ element }) => (
       <Opacity
         id={el.id}
         key={el.id}
-        trigger="opacityEl"
         className={classnames(styles.postContent, {
           [styles.postContentReverse]: even(i) === false,
         })}

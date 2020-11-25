@@ -7,3 +7,23 @@
   height: 100%;
   background-color: $color-horizon;
 }
+
+.anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid $color-horizon;
+  border-radius: 50%;
+  background-color: $color-white;
+  transition: all 1s;
+
+  &.anchorCurrent {
+    background-color: $color-horizon;
+  }
+}
+
+.isCurrent {
+  background-color: $color-horizon;
+}
