@@ -131,17 +131,12 @@ const Header = ({ content, idInView }) => {
               className={classnames(s.imgWrapper, {
                 [s.activeZindex]: el.id === currentItemZindex,
               })}
-              style={{
-                transform: `translate${transformVector}(${transDistance(
-                  i,
-                  el.id
-                )}%)`,
-              }}
+              style={getTransform(i, 1, el.id)}
             >
-              <div className={s.div} style={{ transform }}>
-                <div className={s.div} style={{ compensationTransform }}>
-                  <div className={s.div} style={{ compensationTransform }}>
-                    <div className={s.div} style={{ transform }}>
+              <div className={s.div} style={transform}>
+                <div className={s.div} style={compensationTransform}>
+                  <div className={s.div} style={compensationTransform}>
+                    <div className={s.div} style={transform}>
                       <Btn
                         cbData={el.id}
                         onClick={toggleClass}
